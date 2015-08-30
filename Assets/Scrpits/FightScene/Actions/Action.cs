@@ -70,16 +70,16 @@ public class Action
             }
             else
             {
-                int rnd = Random.Range(0, 3);
-                target = FightScene.PCharaList[rnd];
+                int rnd = Random.Range(0, FightScene.PAliveCharaList.Count);
+                target = FightScene.PAliveCharaList[rnd];
             }
         }
         else
         {
             if (IsAttackAction)
             {
-                int rnd = Random.Range(0, 3);
-                target = FightScene.PCharaList[rnd];
+                int rnd = Random.Range(0, FightScene.PAliveCharaList.Count);
+                target = FightScene.PAliveCharaList[rnd];
             }
             else
             {

@@ -41,5 +41,16 @@ public partial class FightScene
         //開始戰鬥
         Fight = true;
     }
+    /// <summary>
+    /// 檢查更新還活者的腳色清單
+    /// </summary>
+    public static void CheckAliveChara()
+    {
+        for (int i = 0; i < PAliveCharaList.Count; i++)
+        {
+            if (!PAliveCharaList[i].IsAlive)
+                PAliveCharaList.RemoveAt(i);
+        }
+    }
 
 }

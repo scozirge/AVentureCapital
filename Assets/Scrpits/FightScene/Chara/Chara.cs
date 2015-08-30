@@ -67,7 +67,10 @@ public abstract partial class Chara : MonoBehaviour
     protected virtual void AliveCheck()
     {
         if (CurHP <= 0)
+        {
+            Debug.Log(string.Format("{0}死亡", Name));
             IsAlive = false;
+        }
     }
     public virtual void TimePass()
     {

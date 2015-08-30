@@ -28,7 +28,7 @@ public class GameDictionary
         TmpChara1Dic.Add("CurMind", "680");
         TmpChara1Dic.Add("BaseDefense", "40");
         TmpChara1Dic.Add("EquipDefense", "30");
-        TmpChara1Dic.Add("EquipDefenseOdds", "1.1");
+        TmpChara1Dic.Add("EquipDefenseOdds", "1");
         TmpChara1Dic.Add("BaseAttack", "60");
         TmpChara1Dic.Add("EquipAttack", "50");
 
@@ -69,28 +69,28 @@ public class GameDictionary
         Damage dmg = new Damage(ExecuteType.Damage, 1.3f);
         List<ExecuteCom> executeList = new List<ExecuteCom>();
         executeList.Add(dmg);
-        Action ac = new Action("砍殺", 0.3f, executeList, FightScene.PCharaList[0], true);
+        Action ac = new Action("砍殺", 0.2f, executeList, FightScene.PCharaList[0], true);
         Chara1ActionList.Add(ac);
 
         Chara2ActionList = new List<Action>();
         Damage dmg2 = new Damage(ExecuteType.Damage, 1f);
         List<ExecuteCom> executeList2 = new List<ExecuteCom>();
         executeList2.Add(dmg2);
-        Action ac2 = new Action("戳刺", 0.2f, executeList2, FightScene.PCharaList[1], true);
+        Action ac2 = new Action("戳刺", 0.1f, executeList2, FightScene.PCharaList[1], true);
         Chara2ActionList.Add(ac2);
 
         Chara3ActionList = new List<Action>();
         Cure cure3 = new Cure(ExecuteType.Cure, 30);
         List<ExecuteCom> executeList3 = new List<ExecuteCom>();
         executeList3.Add(cure3);
-        Action ac3 = new Action("治癒", 0.3f, executeList3, FightScene.PCharaList[2], false);
+        Action ac3 = new Action("治癒", 0.2f, executeList3, FightScene.PCharaList[2], false);
         Chara3ActionList.Add(ac3);
 
         EnemyActionList = new List<Action>();
         Damage dmg4 = new Damage(ExecuteType.Damage, 1.3f);
         List<ExecuteCom> executeList4 = new List<ExecuteCom>();
         executeList4.Add(dmg4);
-        Action ac4 = new Action("撕咬", 0.4f, executeList4, FightScene.EChara, true);
+        Action ac4 = new Action("撕咬", 0.25f, executeList4, FightScene.EChara, true);
         EnemyActionList.Add(ac4);
     }
 }
