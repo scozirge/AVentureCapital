@@ -24,7 +24,9 @@ public abstract partial class Chara : MonoBehaviour
                 break;
             case Motion.Action:
                 if (Animator.StringToHash(string.Format("Base Layer.{0}", Motion.Action.ToString())) != Ani_Chara.GetCurrentAnimatorStateInfo(0).nameHash)
+                {
                     Ani_Chara.SetTrigger(Motion.Action.ToString());
+                }
                 else
                 {
                     //重播

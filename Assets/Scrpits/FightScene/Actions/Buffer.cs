@@ -10,9 +10,9 @@ public class Buffer : ExecuteCom
     {
         ContributionRatio = _contributionRatio;
     }
-    public override void Execute(Chara _self, Chara _target)
+    public override void Execute(string _actionName, Chara _self, Chara _target)
     {
-        base.Execute(_self, _target);
+        base.Execute(_actionName, _self, _target);
         Debug.Log(string.Format("對{0}施放{1}", Target.Name, Type));
     }
 }

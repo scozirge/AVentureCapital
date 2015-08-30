@@ -14,12 +14,12 @@ public class Damage : ExecuteCom
     {
         ActionAttackOdds = _actionAttackOdds;
     }
-    public override void Execute(Chara _self, Chara _target)
+    public override void Execute(string _actionName, Chara _self, Chara _target)
     {
-        base.Execute(_self, _target);
+        base.Execute(_actionName, _self, _target);
         //取得實際傷害量
         TrueDamage = GetDamage(_self, _target);
-        Debug.Log(string.Format("對{0}執行{1}造成{2}傷害", Target.Name, Type, TrueDamage));
+        Debug.Log(string.Format("{0}{1}{2}造成{3}點{4}", Self.Name, ActionName, Target.Name, TrueDamage, Type));//ex:勇者砍殺大惡魔造成46點傷害
         _target.GetDamge(TrueDamage);
     }
     int GetDamage(Chara _self, Chara _target)
@@ -27,7 +27,7 @@ public class Damage : ExecuteCom
         int damage = 0;
         int lethality = (int)((_self.BaseAttack + _self.EquipAttack) * (ActionAttackOdds) * ((1 + (_self.CurMind / _self.MaxMind)) / 2));
         Contribution = lethality;
-        int resistance = (int)((_target.BaseDefense + _target.EquipDefense) * _target.EquipDefeseOdds);
+        int resistance = (int)((_target.BaseDefense + _target.EquipDefense) * _target.EquipDefenseOdds);
         damage = (int)((100 * lethality) / (100 + resistance));
         return damage;
     }

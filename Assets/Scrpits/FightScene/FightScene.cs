@@ -14,6 +14,7 @@ public partial class FightScene : MonoBehaviour
     static Transform Trans_PlayerCharas;
     public static Dictionary<string, PlayerChara> PCharaDic;
     public static List<PlayerChara> PCharaList;
+    public static List<PlayerChara> PAliveCharaList;
     //EnemyChara
     static Transform Trans_EnemyCharas;
     public static EnemyChara EChara;
@@ -40,11 +41,13 @@ public partial class FightScene : MonoBehaviour
         //Player
         PCharaDic = new Dictionary<string, PlayerChara>();
         PCharaList = new List<PlayerChara>();
+        PAliveCharaList = new List<PlayerChara>();
         Trans_PlayerCharas = MyTransform.FindChild("Charas").FindChild("PlayerCharas");
         for (int i = 0; i < 3; i++)
         {
             PCharaDic.Add(i.ToString(), Trans_PlayerCharas.FindChild(string.Format("Chara{0}", i)).GetComponent<PlayerChara>());
             PCharaList.Add(PCharaDic[i.ToString()]);
+            PAliveCharaList.Add(PCharaDic[i.ToString()]);
         }
         //Enemy
         Trans_EnemyCharas = MyTransform.FindChild("Charas").FindChild("EnemyCharas");
@@ -66,14 +69,14 @@ public partial class FightScene : MonoBehaviour
     /// </summary>
     void SetData()
     {
+        //字典
+        GameDictionary.SetDic();
         //Player
-        for(byte i=0;i<PCharaList.Count;i++)
-        {
-            PCharaList[i].StartSet();
-            PCharaList[i].SetIndex(i);
-        }
+        PCharaList[0].StartSet(0, GameDictionary.TmpChara1Dic, GameDictionary.Chara1ActionList);
+        PCharaList[1].StartSet(1, GameDictionary.TmpChara2Dic, GameDictionary.Chara2ActionList);
+        PCharaList[2].StartSet(2, GameDictionary.TmpChara3Dic, GameDictionary.Chara3ActionList);
         //Enemy
-        EChara.StartSet();
+        EChara.StartSet(GameDictionary.TmpEnemyDic, GameDictionary.EnemyActionList);
         //Timer
         SetTimer();
         //場景
@@ -95,7 +98,7 @@ public partial class FightScene : MonoBehaviour
             }
         }
         //StartAdventrue=true時才啟動冒險計時器
-        if(Adventure)
+        if (Adventure)
             CheckAdventureTime();
     }
 }

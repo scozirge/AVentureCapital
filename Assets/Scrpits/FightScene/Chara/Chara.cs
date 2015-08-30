@@ -5,40 +5,28 @@ using System.Collections.Generic;
 public abstract partial class Chara : MonoBehaviour
 {
     protected Transform MyTransform;
-    //目標
-    public Chara Target { get; protected set; }
     //動作列表
-    public List<Action> ActionList { get; private set; }
+    public List<Action> ActionList { get; protected set; }
     /// <summary>
     /// 起始設定
     /// </summary>
-    public virtual void StartSet()
+    public virtual void StartSet(Dictionary<string, string> _attrDic, List<Action> _actionList)
     {
         MyTransform = transform;
+        Name = _attrDic["Name"];
+        MaxHP = int.Parse(_attrDic["MaxHP"]);
+        CurHP = int.Parse(_attrDic["CurHP"]);
+        MaxMind = int.Parse(_attrDic["MaxMind"]);
+        CurMind = int.Parse(_attrDic["CurMind"]);
+        BaseDefense = int.Parse(_attrDic["BaseDefense"]);
+        EquipDefense = int.Parse(_attrDic["EquipDefense"]);
+        EquipDefenseOdds = float.Parse(_attrDic["EquipDefenseOdds"]);
+        BaseAttack = int.Parse(_attrDic["BaseAttack"]);
+        EquipAttack = int.Parse(_attrDic["EquipAttack"]);
+        ActionList = _actionList;
+        IsAlive = true;
         //初始設定動作
         SetMotion();
-        Name = "腳色";
-        MaxHP = 100;
-        CurHP = 100;
-        MaxMind = 100;
-        CurMind = 100;
-        BaseDefense = 40;
-        EquipDefense = 60;
-        EquipDefeseOdds = 1.2f;
-        BaseAttack = 50;
-        EquipAttack = 70;
-        IsAlive = true;
-        ActionList = new List<Action>();
-        Damage dmg = new Damage(ExecuteType.Damage, 1.2f);
-        Cure cure = new Cure(ExecuteType.Cure, 10);
-        Buffer buffer = new Buffer(ExecuteType.Buffer, 0.1f);
-        List<ExecuteCom> executeList = new List<ExecuteCom>();
-        executeList.Add(dmg);
-        executeList.Add(cure);
-        executeList.Add(buffer);
-        Action ac = new Action("砍殺", 0.3f, executeList, this, FightScene.EChara);
-        ActionList.Add(ac);
-        Target = null;
     }
     /// <summary>
     /// 傳入傷害量，造成傷害

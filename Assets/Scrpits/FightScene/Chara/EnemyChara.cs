@@ -1,16 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 public class EnemyChara : Chara
 {
     /// <summary>
     /// 起始設定
     /// </summary>
-    public override void StartSet()
+    public override void StartSet(Dictionary<string, string> _attrDic, List<Action> _actionList)
     {
-        base.StartSet();
-        Name = "敵方腳色";
-        int rand = Random.Range(0, FightScene.PCharaList.Count);
-        Target = FightScene.PCharaList[rand];
+        base.StartSet(_attrDic, _actionList);
+        TheCharaType = CharaType.Enemy;
     }
 }

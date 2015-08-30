@@ -5,6 +5,8 @@ public abstract partial class Chara : MonoBehaviour
 {
     //名稱
     public string Name { get; protected set; }
+    //腳色類型
+    public CharaType TheCharaType { get; protected set; }
     //最大血量
     public int MaxHP { get; protected set; }
     //目前血量
@@ -18,7 +20,7 @@ public abstract partial class Chara : MonoBehaviour
     //裝備防禦值
     public int EquipDefense { get; protected set; }
     //裝備抵抗強度
-    public float EquipDefeseOdds { get; protected set; }
+    public float EquipDefenseOdds { get; protected set; }
     //基本攻擊值
     public int BaseAttack { get; protected set; }
     //裝備攻擊值

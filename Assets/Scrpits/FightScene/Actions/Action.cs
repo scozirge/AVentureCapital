@@ -15,19 +15,19 @@ public class Action
     public List<ExecuteCom> ExecuteList;
     //自身
     public Chara Self;
-    //目標
-    public Chara Target;
+    //是否為攻擊動作
+    public bool IsAttackAction;
     /// <summary>
     /// 設定動作內容
     /// </summary>
-    public Action(string _name, float _time, List<ExecuteCom> _executeList, Chara _self, Chara _target)
+    public Action(string _name, float _time, List<ExecuteCom> _executeList, Chara _self, bool _attackAction)
     {
         Name = _name;
         Time = _time;
         RemainTime = Time;
         ExecuteList = _executeList;
         Self = _self;
-        Target = _target;
+        IsAttackAction = _attackAction;
     }
     /// <summary>
     /// 判斷CD是否到達可以進行此動作
@@ -51,10 +51,41 @@ public class Action
     /// </summary>
     public void Execute()
     {
+        //執行動作
         for (int i = 0; i < ExecuteList.Count; i++)
         {
-            ExecuteList[i].Execute(Self, Target);
+            ExecuteList[i].Execute(Name, Self, SelectTarget());
         }
         FightSceneUI.RefreshHPUI();
+    }
+    Chara SelectTarget()
+    {
+        //判斷目標
+        Chara target;
+        if (Self.TheCharaType == CharaType.Player)
+        {
+            if (IsAttackAction)
+            {
+                target = FightScene.EChara;
+            }
+            else
+            {
+                int rnd = Random.Range(0, 3);
+                target = FightScene.PCharaList[rnd];
+            }
+        }
+        else
+        {
+            if (IsAttackAction)
+            {
+                int rnd = Random.Range(0, 3);
+                target = FightScene.PCharaList[rnd];
+            }
+            else
+            {
+                target = FightScene.EChara;
+            }
+        }
+        return target;
     }
 }

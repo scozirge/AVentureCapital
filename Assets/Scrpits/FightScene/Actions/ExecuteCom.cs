@@ -4,11 +4,13 @@ using System.Collections;
 public abstract class ExecuteCom
 {//執行效果的基底類別，子類別有Damage,Cure,Buffer
 
-    /// 類型
+    //發動此執行元件的動作名稱
+    public string ActionName { get; protected set; }
+    // 類型
     public ExecuteType Type { get; protected set; }
     //自身
     public Chara Self { get; protected set; }
-    /// 目標
+    // 目標
     public Chara Target { get; protected set; }
 
     public ExecuteCom(ExecuteType _type)
@@ -20,8 +22,9 @@ public abstract class ExecuteCom
     /// <summary>
     /// 執行
     /// </summary>
-    public virtual void Execute(Chara _self, Chara _target)
+    public virtual void Execute(string _actionName, Chara _self, Chara _target)
     {
+        ActionName = _actionName;
         Self = _self;
         Target = _target;
     }

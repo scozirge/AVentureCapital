@@ -14,11 +14,11 @@ public class Cure : ExecuteCom
     {
         BaseCure = _baseCure;
     }
-    public override void Execute(Chara _self, Chara _target)
+    public override void Execute(string _actionName, Chara _self, Chara _target)
     {
-        base.Execute(_self, _target);
+        base.Execute(_actionName, _self, _target);
         TrueCure = GetCure(_self, _target);//取得實際治癒量
-        Debug.Log(string.Format("對{0}執行{1}治癒{2}點血量", Target.Name, Type, GetCure(_self, _target)));
+        Debug.Log(string.Format("{0}{1}{2}造成{3}點{4}", Self.Name, ActionName, Target.Name, TrueCure, Type));//ex:勇者治癒隊友造成46點恢復
         _target.GetCure(TrueCure);
     }
     int GetCure(Chara _self, Chara _target)
