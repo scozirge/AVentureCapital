@@ -14,17 +14,24 @@ public abstract partial class Chara : MonoBehaviour
     {
         MyTransform = transform;
         Name = _attrDic["Name"];
+        //狀態
         MaxHP = int.Parse(_attrDic["MaxHP"]);
         CurHP = int.Parse(_attrDic["CurHP"]);
         MaxMind = int.Parse(_attrDic["MaxMind"]);
         CurMind = int.Parse(_attrDic["CurMind"]);
+        IsAlive = true;
+        //防禦
         BaseDefense = int.Parse(_attrDic["BaseDefense"]);
         EquipDefense = int.Parse(_attrDic["EquipDefense"]);
-        EquipDefenseOdds = float.Parse(_attrDic["EquipDefenseOdds"]);
+        BufferDefenseValue = 0;
+        BufferDefenseRate = 1;
+        EquipDefenseRate = float.Parse(_attrDic["EquipDefenseRate"]);
+        //攻擊
         BaseAttack = int.Parse(_attrDic["BaseAttack"]);
         EquipAttack = int.Parse(_attrDic["EquipAttack"]);
+        BufferAttackVlue = 0;
+        BufferAttackRate = 1;
         ActionList = _actionList;
-        IsAlive = true;
         //初始設定動作
         SetMotion();
     }

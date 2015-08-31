@@ -28,7 +28,7 @@ public class GameDictionary
         TmpChara1Dic.Add("CurMind", "680");
         TmpChara1Dic.Add("BaseDefense", "40");
         TmpChara1Dic.Add("EquipDefense", "30");
-        TmpChara1Dic.Add("EquipDefenseOdds", "1");
+        TmpChara1Dic.Add("EquipDefenseRate", "1");
         TmpChara1Dic.Add("BaseAttack", "60");
         TmpChara1Dic.Add("EquipAttack", "50");
 
@@ -39,7 +39,7 @@ public class GameDictionary
         TmpChara2Dic.Add("CurMind", "380");
         TmpChara2Dic.Add("BaseDefense", "30");
         TmpChara2Dic.Add("EquipDefense", "30");
-        TmpChara2Dic.Add("EquipDefenseOdds", "1.2");
+        TmpChara2Dic.Add("EquipDefenseRate", "1.2");
         TmpChara2Dic.Add("BaseAttack", "40");
         TmpChara2Dic.Add("EquipAttack", "50");
 
@@ -50,7 +50,7 @@ public class GameDictionary
         TmpChara3Dic.Add("CurMind", "330");
         TmpChara3Dic.Add("BaseDefense", "40");
         TmpChara3Dic.Add("EquipDefense", "30");
-        TmpChara3Dic.Add("EquipDefenseOdds", "1.2");
+        TmpChara3Dic.Add("EquipDefenseRate", "1.2");
         TmpChara3Dic.Add("BaseAttack", "50");
         TmpChara3Dic.Add("EquipAttack", "50");
 
@@ -61,7 +61,7 @@ public class GameDictionary
         TmpEnemyDic.Add("CurMind", "930");
         TmpEnemyDic.Add("BaseDefense", "80");
         TmpEnemyDic.Add("EquipDefense", "50");
-        TmpEnemyDic.Add("EquipDefenseOdds", "1");
+        TmpEnemyDic.Add("EquipDefenseRate", "1");
         TmpEnemyDic.Add("BaseAttack", "80");
         TmpEnemyDic.Add("EquipAttack", "150");
 
