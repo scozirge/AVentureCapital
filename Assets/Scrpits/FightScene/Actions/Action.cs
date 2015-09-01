@@ -10,6 +10,7 @@ public class Action
     public float Time { get; private set; }
     //執行動作剩餘時間
     public float RemainTime { get; private set; }
+    //每次時間流逝的單位時間
     const float TimeUnit = 0.1f;
     //執行列表
     public List<ExecuteCom> ExecuteList;
@@ -43,18 +44,19 @@ public class Action
         {
             execute = true;
             RemainTime = Time;
+            Execute();
         }
         return execute;
     }
     /// <summary>
     /// 執行動作
     /// </summary>
-    public void Execute()
+    void Execute()
     {
         //執行動作
         for (int i = 0; i < ExecuteList.Count; i++)
         {
-            ExecuteList[i].Execute(Name, Self, SelectTarget());
+            ExecuteList[i].Execute(SelectTarget());
         }
         FightSceneUI.RefreshHPUI();
     }

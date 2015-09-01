@@ -79,14 +79,15 @@ public abstract partial class Chara : MonoBehaviour
             IsAlive = false;
         }
     }
+    /// <summary>
+    /// 時間流逝，代表此腳色有時間元素的屬性都要計算經過時間，例如動作執行、狀態效果的時間
+    /// </summary>
     public virtual void TimePass()
     {
         for (int i = 0; i < ActionList.Count; i++)
         {
             if (ActionList[i].ExecuteCheck())
             {
-                //執行動作
-                ActionList[i].Execute();
                 //播放動作
                 PlayMotion(Motion.Action);
             }

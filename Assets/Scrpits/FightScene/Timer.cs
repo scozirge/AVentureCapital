@@ -4,7 +4,7 @@ using System.Collections;
 public partial class FightScene
 {
     //戰鬥每個影格單位時間
-    const float FightTimeUnit = 1;
+    const float TimeUnit = 1;
     //戰鬥一輪的單位時間
     const float FightTimeRoundUnits = 1;
     //戰鬥計時器
@@ -34,7 +34,7 @@ public partial class FightScene
         bool executeRound = false;
         if(FightTimer>0)
         {
-            FightTimer -= FightTimeUnit * Time.deltaTime;
+            FightTimer -= TimeUnit * Time.deltaTime;
         }
         else
         {

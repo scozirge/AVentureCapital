@@ -13,19 +13,19 @@ public abstract class ExecuteCom
     // 目標
     public Chara Target { get; protected set; }
 
-    public ExecuteCom(ExecuteType _type)
+    public ExecuteCom(string _actionName, ExecuteType _type, Chara _self)
     {
+        ActionName = _actionName;
         Type = _type;
+        Self = _self;
     }
 
 
     /// <summary>
     /// 執行
     /// </summary>
-    public virtual void Execute(string _actionName, Chara _self, Chara _target)
+    public virtual void Execute(Chara _target)
     {
-        ActionName = _actionName;
-        Self = _self;
         Target = _target;
     }
 }

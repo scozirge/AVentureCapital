@@ -9,19 +9,19 @@ public class Cure : ExecuteCom
     public int TrueCure { get; private set; }
     //此執行元件提供的貢獻值
     public int Contribution { get; protected set; }
-    public Cure(ExecuteType _type, int _baseCure)
-        : base(_type)
+    public Cure(string _actionName, ExecuteType _type, Chara _self, int _baseCure)
+        : base(_actionName, _type, _self)
     {
         BaseCure = _baseCure;
     }
-    public override void Execute(string _actionName, Chara _self, Chara _target)
+    public override void Execute(Chara _target)
     {
-        base.Execute(_actionName, _self, _target);
-        TrueCure = GetCure(_self, _target);//取得實際治癒量
-        Debug.Log(string.Format("{0}{1}{2}造成{3}點{4}", Self.Name, ActionName, Target.Name, TrueCure, Type));//ex:勇者治癒隊友造成46點恢復
-        _target.GetCure(TrueCure);
+        base.Execute(_target);
+        TrueCure = GetCure();//取得實際治癒量
+        Debug.Log(string.Format("{0}施放{1}{2}造成{3}點{4}", Self.Name, ActionName, Target.Name, TrueCure, Type));//ex:勇者施放治癒隊友造成46點恢復
+        Target.GetCure(TrueCure);
     }
-    int GetCure(Chara _self, Chara _target)
+    int GetCure()
     {
         int cure = BaseCure;
         Contribution = cure;

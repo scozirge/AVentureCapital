@@ -66,28 +66,28 @@ public class GameDictionary
         TmpEnemyDic.Add("EquipAttack", "150");
 
         Chara1ActionList = new List<Action>();
-        Damage dmg = new Damage(ExecuteType.Damage, 1.3f);
+        Damage dmg = new Damage("砍殺", ExecuteType.Damage, FightScene.PCharaList[0], 1.3f);
         List<ExecuteCom> executeList = new List<ExecuteCom>();
         executeList.Add(dmg);
         Action ac = new Action("砍殺", 0.2f, executeList, FightScene.PCharaList[0], true);
         Chara1ActionList.Add(ac);
 
         Chara2ActionList = new List<Action>();
-        Damage dmg2 = new Damage(ExecuteType.Damage, 1f);
+        Damage dmg2 = new Damage("戳刺", ExecuteType.Damage, FightScene.PCharaList[1], 1f);
         List<ExecuteCom> executeList2 = new List<ExecuteCom>();
         executeList2.Add(dmg2);
         Action ac2 = new Action("戳刺", 0.1f, executeList2, FightScene.PCharaList[1], true);
         Chara2ActionList.Add(ac2);
 
         Chara3ActionList = new List<Action>();
-        Cure cure3 = new Cure(ExecuteType.Cure, 30);
+        Cure cure3 = new Cure("治癒", ExecuteType.Cure, FightScene.PCharaList[2], 30);
         List<ExecuteCom> executeList3 = new List<ExecuteCom>();
         executeList3.Add(cure3);
         Action ac3 = new Action("治癒", 0.2f, executeList3, FightScene.PCharaList[2], false);
         Chara3ActionList.Add(ac3);
 
         EnemyActionList = new List<Action>();
-        Damage dmg4 = new Damage(ExecuteType.Damage, 1.3f);
+        Damage dmg4 = new Damage("撕咬", ExecuteType.Damage, FightScene.EChara, 1.3f);
         List<ExecuteCom> executeList4 = new List<ExecuteCom>();
         executeList4.Add(dmg4);
         Action ac4 = new Action("撕咬", 0.25f, executeList4, FightScene.EChara, true);
