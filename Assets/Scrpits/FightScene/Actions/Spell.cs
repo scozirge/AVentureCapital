@@ -2,13 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Action
+public class Sell
 {
-    //動作名稱
+    //施法名稱
     public string Name { get; private set; }
-    //動作時間
+    //施法時間
     public float Time { get; private set; }
-    //執行動作剩餘時間
+    //執行施法剩餘時間
     public float RemainTime { get; private set; }
     //每次時間流逝的單位時間
     const float TimeUnit = 0.1f;
@@ -16,12 +16,12 @@ public class Action
     public List<ExecuteCom> ExecuteList;
     //自身
     public Chara Self;
-    //是否為攻擊動作
+    //是否為攻擊施法
     public bool IsAttackAction;
     /// <summary>
-    /// 設定動作內容
+    /// 設定施法內容
     /// </summary>
-    public Action(string _name, float _time, List<ExecuteCom> _executeList, Chara _self, bool _attackAction)
+    public Sell(string _name, float _time, List<ExecuteCom> _executeList, Chara _self, bool _attackAction)
     {
         Name = _name;
         Time = _time;
@@ -31,7 +31,7 @@ public class Action
         IsAttackAction = _attackAction;
     }
     /// <summary>
-    /// 判斷CD是否到達可以進行此動作
+    /// 判斷CD是否到達可以進行此施法
     /// </summary>
     public bool ExecuteCheck()
     {
@@ -49,11 +49,11 @@ public class Action
         return execute;
     }
     /// <summary>
-    /// 執行動作
+    /// 執行施法
     /// </summary>
     void Execute()
     {
-        //執行動作
+        //執行施法
         for (int i = 0; i < ExecuteList.Count; i++)
         {
             ExecuteList[i].Execute(SelectTarget());

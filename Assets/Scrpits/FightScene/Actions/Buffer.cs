@@ -16,9 +16,9 @@ public class Buffer : ExecuteCom
     //持續時間
     public float Duration { get; set; }
     //此狀態持續時，每經過一段執行時間會造成的傷害效果
-    public Damage TriggerDamage { get; protected set; }
+    public BufferDamage TriggerDamage { get; protected set; }
     //此狀態持續時，每經過一段時間會造成的治癒效果
-    public Cure TriggerCure { get; protected set; }
+    public BufferCure TriggerCure { get; protected set; }
     //觸發週期時間
     public float Circle { get; set; }
     //得到狀態時，是否起始就會觸發Damge & Cure

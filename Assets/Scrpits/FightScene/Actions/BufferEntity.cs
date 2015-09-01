@@ -32,13 +32,17 @@ public class BufferEntity : MonoBehaviour
     {
         if (RemainTime > 0)
         {
-            if (RemainTriggerTime>0)
+            if (RemainTriggerTime > 0)
             {
                 RemainTriggerTime -= TimeUnit;
             }
             else
             {
-                //RelyBuffer.TriggerDamage.Execute();
+                //觸發傷害
+                RelyBuffer.TriggerDamage.Execute();
+                //觸發治癒
+                RelyBuffer.TriggerCure.Execute();
+                //重設觸發剩餘時間
                 RemainTriggerTime = RelyBuffer.Circle;
             }
             RemainTime -= TimeUnit;

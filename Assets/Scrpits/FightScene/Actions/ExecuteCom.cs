@@ -4,7 +4,7 @@ using System.Collections;
 public abstract class ExecuteCom
 {//執行效果的基底類別，子類別有Damage,Cure,Buffer
 
-    //發動此執行元件的動作名稱
+    //發動此執行元件的施法名稱
     public string ActionName { get; protected set; }
     // 類型
     public ExecuteType Type { get; protected set; }
@@ -19,8 +19,6 @@ public abstract class ExecuteCom
         Type = _type;
         Self = _self;
     }
-
-
     /// <summary>
     /// 執行
     /// </summary>

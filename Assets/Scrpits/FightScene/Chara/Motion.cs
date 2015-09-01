@@ -12,7 +12,7 @@ public abstract partial class Chara : MonoBehaviour
         Ani_Chara = MyTransform.GetComponent<Animator>();
     }
     /// <summary>
-    /// 播放腳色動作
+    /// 播放腳色施法
     /// </summary>
     public void PlayMotion(Motion _motion)
     {

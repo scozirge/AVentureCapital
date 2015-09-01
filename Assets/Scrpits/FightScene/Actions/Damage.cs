@@ -10,7 +10,7 @@ public class Damage : ExecuteCom
     //此執行元件提供的貢獻值
     public int Contribution { get; protected set; }
     /// <summary>
-    /// 初始化動作的傷害效果
+    /// 初始化施法的傷害效果
     /// </summary>
     public Damage(string _actionName, ExecuteType _type, Chara _self, float _actionAttackRate)
         : base(_actionName, _type, _self)
@@ -18,7 +18,7 @@ public class Damage : ExecuteCom
         ActionAttackRate = _actionAttackRate;
     }
     /// <summary>
-    /// 用於腳色動作執行傷害效果時，傳入目標，對目標造成傷害
+    /// 用於腳色施法執行傷害效果時，傳入目標，對目標造成傷害
     /// </summary>
     public override void Execute(Chara _target)
     {
@@ -28,7 +28,7 @@ public class Damage : ExecuteCom
         Debug.Log(string.Format("{0}施放{1}{2}造成{3}點{4}", Self.Name, ActionName, Target.Name, TrueDamage, Type));//ex:勇者施放砍殺大惡魔造成46點傷害
         Target.GetDamge(TrueDamage);
     }
-    int GetDamage()
+    protected int GetDamage()
     {
         int damage = 0;
         //物理殺傷力= (腳色攻擊值+裝備攻擊值+效果攻擊加值) *(效果攻擊乘值) * (技能強度) * ((1+(目前精神/最大精神))/2)

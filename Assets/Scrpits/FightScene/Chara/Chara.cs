@@ -5,12 +5,12 @@ using System.Collections.Generic;
 public abstract partial class Chara : MonoBehaviour
 {
     protected Transform MyTransform;
-    //動作列表
-    public List<Action> ActionList { get; protected set; }
+    //施法列表
+    public List<Sell> ActionList { get; protected set; }
     /// <summary>
     /// 起始設定
     /// </summary>
-    public virtual void StartSet(Dictionary<string, string> _attrDic, List<Action> _actionList)
+    public virtual void StartSet(Dictionary<string, string> _attrDic, List<Sell> _actionList)
     {
         MyTransform = transform;
         Name = _attrDic["Name"];
@@ -32,7 +32,7 @@ public abstract partial class Chara : MonoBehaviour
         BufferAttackVlue = 0;
         BufferAttackRate = 1;
         ActionList = _actionList;
-        //初始設定動作
+        //初始設定施法
         SetMotion();
     }
     /// <summary>
@@ -80,7 +80,7 @@ public abstract partial class Chara : MonoBehaviour
         }
     }
     /// <summary>
-    /// 時間流逝，代表此腳色有時間元素的屬性都要計算經過時間，例如動作執行、狀態效果的時間
+    /// 時間流逝，代表此腳色有時間元素的屬性都要計算經過時間，例如施法執行、狀態效果的時間
     /// </summary>
     public virtual void TimePass()
     {
@@ -88,7 +88,7 @@ public abstract partial class Chara : MonoBehaviour
         {
             if (ActionList[i].ExecuteCheck())
             {
-                //播放動作
+                //播放施法
                 PlayMotion(Motion.Action);
             }
         }

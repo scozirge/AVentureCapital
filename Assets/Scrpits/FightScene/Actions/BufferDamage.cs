@@ -1,41 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BufferDamage : ExecuteCom
-{//與動作的傷害處發效果差別在於動作是在動作執行時才決定目標，而狀態觸發的傷害效果是在狀態執行時就給予觸發的傷害效果目標
+public class BufferDamage : Damage
+{//為狀態引發的傷害(BufferDamage)，與施法執行的傷害(Damage)差別在於Damge是在施法執行時才決定目標，而BufferDamage是在狀態執行時就給予觸發的目標
 
-    //技能強度
-    public float ActionAttackRate { get; protected set; }
-    //造成的實際傷害
-    public int TrueDamage { get; protected set; }
-    //此執行元件提供的貢獻值
-    public int Contribution { get; protected set; }
     /// <summary>
     /// 初始化狀態的傷害觸發效果
     /// </summary>
-    public BufferDamage(string _actionName, ExecuteType _type, Chara _self,Chara _target, float _actionAttackRate)
-        : base(_actionName, _type, _self)
+    public BufferDamage(string _actionName, ExecuteType _type, Chara _self, Chara _target, float _actionAttackRate)
+        : base(_actionName, _type, _self, _actionAttackRate)
     {
         Target = _target;
-        ActionAttackRate = _actionAttackRate;
     }
     /// <summary>
-    /// 用於腳色動作執行傷害效果時，傳入目標，對目標造成傷害
+    /// 複寫Damage傳入目標的Execute方法，狀態引發的傷害目標是初始化時就給予了，不能再執行Execute時給予
     /// </summary>
     public override void Execute(Chara _target)
     {
-        /*
-        base.Execute();
-        Target = _target;
-        //取得實際傷害量
-        TrueDamage = GetDamage();
-        Debug.Log(string.Format("{0}施放{1}{2}造成{3}點{4}", Self.Name, ActionName, Target.Name, TrueDamage, Type));//ex:勇者施放砍殺大惡魔造成46點傷害
-        Target.GetDamge(TrueDamage);
-        */
+        Execute();
     }
+    /// <summary>
+    /// 執行
+    /// </summary>
     public void Execute()
     {
-
+        //取得實際傷害量
+        TrueDamage = GetDamage();
+        Debug.Log(string.Format("{0}受到{1}狀態影響，造成{2}點{3}", Self.Name, ActionName, TrueDamage, Type));//ex:大惡魔受到砍殺狀態影響，造成56點傷害
+        Target.GetDamge(TrueDamage);
     }
 
 }
