@@ -28,7 +28,7 @@ public class Damage : ExecuteCom
         Debug.Log(string.Format("{0}施放{1}{2}造成{3}點{4}", Self.Name, ActionName, Target.Name, TrueDamage, Type));//ex:勇者施放砍殺大惡魔造成46點傷害
         Target.GetDamge(TrueDamage);
     }
-    protected int GetDamage()
+    protected virtual int GetDamage()
     {
         int damage = 0;
         //物理殺傷力= (腳色攻擊值+裝備攻擊值+效果攻擊加值) *(效果攻擊乘值) * (技能強度) * ((1+(目前精神/最大精神))/2)

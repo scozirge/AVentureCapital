@@ -29,5 +29,9 @@ public class BufferDamage : Damage
         Debug.Log(string.Format("{0}受到{1}狀態影響，造成{2}點{3}", Self.Name, ActionName, TrueDamage, Type));//ex:大惡魔受到砍殺狀態影響，造成56點傷害
         Target.GetDamge(TrueDamage);
     }
+    protected override int GetDamage()
+    {
+        return base.GetDamage();
+    }
 
 }
