@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 public class Buffer : ExecuteCom
 {
+    //BufferID，腳色如果中了同樣的BufferID的Buffer，會判斷是否為可疊加的Buffer，不可疊加的Buffer會重置持續時間，並取代掉舊的Buffer，
+    //而可疊加的Buffer會重複獲得新Buffer且不會影響到舊的Buffer
+    public int ID { get; protected set; }
     //效果類型
     public BufferType TheBufferType { get; protected set; }
     //是否為正面狀態
@@ -41,6 +44,7 @@ public class Buffer : ExecuteCom
     public Buffer(string _actionName, ExecuteType _type, Chara _self, Dictionary<string, string> _attrDic)
         : base(_actionName, _type, _self)
     {
+        ID = int.Parse(_attrDic["BufferID"]);
         TheBufferType = (BufferType)Enum.Parse(typeof(BufferType), _attrDic["Type"], false);
         IsBuff = bool.Parse((_attrDic["IsBuff"]));
         IsDeBuff = bool.Parse((_attrDic["IsDeBuff"]));
@@ -57,5 +61,14 @@ public class Buffer : ExecuteCom
         BufferDefenseVlaue = int.Parse(_attrDic["BufferDefenseValue"]);
         BufferDefenseRate = float.Parse(_attrDic["BufferDefenseRate"]);
         ContributionRate = float.Parse(_attrDic["ContributionRate"]);
+    }
+    /// <summary>
+    /// 用於腳色施法執行狀態時，傳入目標，對目標賦予此狀態
+    /// </summary>
+    public override void Execute(Chara _target)
+    {
+        base.Execute(_target);
+        Debug.Log(string.Format("{0}施放{1}對{2}附加{3}{4}", Self.Name, ActionName, Target.Name, TheBufferType, Type));//ex:勇者施放砍殺對大惡魔附加流血狀態
+        Target.GetBuffer(this);
     }
 }

@@ -67,30 +67,67 @@ public class GameDictionary
 
         Chara1ActionList = new List<Sell>();
         Damage dmg = new Damage("砍殺", ExecuteType.Damage, FightScene.PCharaList[0], 1.3f);
+        Dictionary<string, string> bufferDic = new Dictionary<string, string>();
+        /*
+        ID = int.Parse(_attrDic["BufferID"]);
+        TheBufferType = (BufferType)Enum.Parse(typeof(BufferType), _attrDic["Type"], false);
+        IsBuff = bool.Parse((_attrDic["IsBuff"]));
+        IsDeBuff = bool.Parse((_attrDic["IsDeBuff"]));
+        Probability = float.Parse(_attrDic["Probability"]);
+        Duration = float.Parse(_attrDic["Duration"]);
+        //TriggerDamage
+        //TriggerCure
+        Circle = float.Parse(_attrDic["Circle"]);
+        IniTrigger = bool.Parse((_attrDic["IniTrigger"]));
+        Stackable = bool.Parse((_attrDic["Stackable"]));
+        MaxStack = int.Parse(_attrDic["MaxStack"]);
+        BufferAttackVlaue = int.Parse(_attrDic["BufferAttackValue"]);
+        BufferAttackRate = float.Parse(_attrDic["BufferAttackRate"]);
+        BufferDefenseVlaue = int.Parse(_attrDic["BufferDefenseValue"]);
+        BufferDefenseRate = float.Parse(_attrDic["BufferDefenseRate"]);
+        ContributionRate = float.Parse(_attrDic["ContributionRate"]);
+         */
+        bufferDic.Add("BufferID", "1");
+        bufferDic.Add("Type", "PhysicsDamage");
+        bufferDic.Add("IsBuff", "True");
+        bufferDic.Add("IsDeBuff", "False");
+        bufferDic.Add("Probability", "1");
+        bufferDic.Add("Duration", "9");
+        bufferDic.Add("Circle", "3");
+        bufferDic.Add("IniTrigger", "True");
+        bufferDic.Add("Stackable", "True");
+        bufferDic.Add("MaxStack", "0");
+        bufferDic.Add("BufferAttackValue", "50");
+        bufferDic.Add("BufferAttackRate", "0.5");
+        bufferDic.Add("BufferDefenseValue", "50");
+        bufferDic.Add("BufferDefenseRate", "0.5");
+        bufferDic.Add("ContributionRate", "0.1");
+        Buffer buffer = new Buffer("砍殺", ExecuteType.Buffer, FightScene.PCharaList[0], bufferDic);
         List<ExecuteCom> executeList = new List<ExecuteCom>();
         executeList.Add(dmg);
-        Sell ac = new Sell("砍殺", 0.2f, executeList, FightScene.PCharaList[0], true);
+        executeList.Add(buffer);
+        Sell ac = new Sell("砍殺", 2f, executeList, FightScene.PCharaList[0], true);
         Chara1ActionList.Add(ac);
 
         Chara2ActionList = new List<Sell>();
         Damage dmg2 = new Damage("戳刺", ExecuteType.Damage, FightScene.PCharaList[1], 1f);
         List<ExecuteCom> executeList2 = new List<ExecuteCom>();
         executeList2.Add(dmg2);
-        Sell ac2 = new Sell("戳刺", 0.1f, executeList2, FightScene.PCharaList[1], true);
+        Sell ac2 = new Sell("戳刺", 1f, executeList2, FightScene.PCharaList[1], true);
         Chara2ActionList.Add(ac2);
 
         Chara3ActionList = new List<Sell>();
         Cure cure3 = new Cure("治癒", ExecuteType.Cure, FightScene.PCharaList[2], 30);
         List<ExecuteCom> executeList3 = new List<ExecuteCom>();
         executeList3.Add(cure3);
-        Sell ac3 = new Sell("治癒", 0.2f, executeList3, FightScene.PCharaList[2], false);
+        Sell ac3 = new Sell("治癒", 2f, executeList3, FightScene.PCharaList[2], false);
         Chara3ActionList.Add(ac3);
 
         EnemyActionList = new List<Sell>();
         Damage dmg4 = new Damage("撕咬", ExecuteType.Damage, FightScene.EChara, 1.3f);
         List<ExecuteCom> executeList4 = new List<ExecuteCom>();
         executeList4.Add(dmg4);
-        Sell ac4 = new Sell("撕咬", 0.25f, executeList4, FightScene.EChara, true);
+        Sell ac4 = new Sell("撕咬", 2.5f, executeList4, FightScene.EChara, true);
         EnemyActionList.Add(ac4);
     }
 }

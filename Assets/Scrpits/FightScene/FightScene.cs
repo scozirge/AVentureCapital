@@ -76,7 +76,7 @@ public partial class FightScene : MonoBehaviour
         PCharaList[1].StartSet(1, GameDictionary.TmpChara2Dic, GameDictionary.Chara2ActionList);
         PCharaList[2].StartSet(2, GameDictionary.TmpChara3Dic, GameDictionary.Chara3ActionList);
         //Enemy
-        EChara.StartSet(GameDictionary.TmpEnemyDic, GameDictionary.EnemyActionList);
+        EChara.IniChara(GameDictionary.TmpEnemyDic, GameDictionary.EnemyActionList);
         //Timer
         SetTimer();
         //場景
@@ -88,17 +88,19 @@ public partial class FightScene : MonoBehaviour
         if (Fight)
         {
             //檢查一單位時間是否到了，時間到就呼叫所有腳色的TimePass
-            if (CheckTimeUnit())
+            if (CheckFightTimeUnit())
             {
+                Debug.LogWarning("////////////玩家動作///////////");
                 for (int i = 0; i < PCharaList.Count; i++)
                 {
                     PCharaList[i].TimePass();
                 }
+                Debug.LogWarning("////////////敵方動作///////////");
                 EChara.TimePass();
             }
         }
         //StartAdventrue=true時才啟動冒險計時器
         if (Adventure)
-            CheckAdventureTime();
+            CheckAdventureTimeUnit();
     }
 }

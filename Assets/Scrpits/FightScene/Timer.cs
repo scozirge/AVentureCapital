@@ -6,7 +6,7 @@ public partial class FightScene
     //戰鬥每個影格單位時間
     const float TimeUnit = 1;
     //戰鬥一輪的單位時間
-    const float FightTimeRoundUnits = 1;
+    const float FightTimeRoundUnits = 0.1f;
     //戰鬥計時器
     static float FightTimer;
     //冒險每個影格單位時間
@@ -29,7 +29,7 @@ public partial class FightScene
     /// <summary>
     /// 計時一個單位時間是否到達
     /// </summary>
-    static bool CheckTimeUnit()
+    static bool CheckFightTimeUnit()
     {
         bool executeRound = false;
         if(FightTimer>0)
@@ -46,7 +46,7 @@ public partial class FightScene
     /// <summary>
     /// 冒險計時器，倒數幾秒時間到遇到怪物或寶箱
     /// </summary>
-    static void CheckAdventureTime()
+    static void CheckAdventureTimeUnit()
     {
         if (AdventureTimer > 0)
         {

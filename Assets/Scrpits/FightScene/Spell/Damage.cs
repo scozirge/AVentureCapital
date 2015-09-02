@@ -25,7 +25,7 @@ public class Damage : ExecuteCom
         base.Execute(_target);
         //取得實際傷害量
         TrueDamage = GetDamage();
-        Debug.Log(string.Format("{0}施放{1}{2}造成{3}點{4}", Self.Name, ActionName, Target.Name, TrueDamage, Type));//ex:勇者施放砍殺大惡魔造成46點傷害
+        Debug.Log(string.Format("{0}施放{1}對{2}造成{3}點{4}", Self.Name, ActionName, Target.Name, TrueDamage, Type));//ex:勇者施放砍殺大惡魔造成46點傷害
         Target.GetDamge(TrueDamage);
     }
     protected virtual int GetDamage()

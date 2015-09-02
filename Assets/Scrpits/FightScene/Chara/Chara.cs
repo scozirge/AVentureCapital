@@ -10,7 +10,7 @@ public abstract partial class Chara : MonoBehaviour
     /// <summary>
     /// 起始設定
     /// </summary>
-    public virtual void StartSet(Dictionary<string, string> _attrDic, List<Sell> _actionList)
+    public virtual void IniChara(Dictionary<string, string> _attrDic, List<Sell> _actionList)
     {
         MyTransform = transform;
         Name = _attrDic["Name"];
@@ -32,8 +32,10 @@ public abstract partial class Chara : MonoBehaviour
         BufferAttackVlue = 0;
         BufferAttackRate = 1;
         ActionList = _actionList;
-        //初始設定施法
-        SetMotion();
+        //初始化Buffer
+        IniBuffer();
+        //初始化動作
+        IniMotion();
     }
     /// <summary>
     /// 傳入傷害量，造成傷害
@@ -90,6 +92,14 @@ public abstract partial class Chara : MonoBehaviour
             {
                 //播放施法
                 PlayMotion(Motion.Action);
+            }
+        }
+        List<int> bufferKeys = new List<int>(BufferDic.Keys);
+        for (int i = 0; i < bufferKeys.Count; i++)
+        {
+            for(int j=0;j<BufferDic[bufferKeys[i]].Count;j++)
+            {
+                BufferDic[bufferKeys[i]][j].ExecuteCheck();
             }
         }
     }
