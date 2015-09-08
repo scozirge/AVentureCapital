@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 public abstract partial class Chara : MonoBehaviour
 {
-    static GameObject Prefab_BufferEntity = Resources.Load<GameObject>("GameObjects/FightScene/Chara/BufferDumy");
+    static GameObject Prefab_BufferEntity;
     GameObject Go_BufferEntity;
     Transform Trans_BufferList;
     BufferEntity Com_BufferEntity;
@@ -14,6 +14,7 @@ public abstract partial class Chara : MonoBehaviour
     /// </summary>
     void IniBuffer()
     {
+        Prefab_BufferEntity = Resources.Load<GameObject>("GameObjects/FightScene/Chara/BufferDumy");
         Trans_BufferList = MyTransform.FindChild("BufferList");
         BufferDic = new Dictionary<int, List<BufferEntity>>();
     }
@@ -62,7 +63,7 @@ public abstract partial class Chara : MonoBehaviour
             Debug.LogWarning(string.Format("嘗試移除腳色沒擁有的BufferID({0})", _bufferID));
             return;
         }
-        if(BufferDic[_bufferID].Count==0)
+        if (BufferDic[_bufferID].Count == 0)
         {
             Debug.LogWarning(string.Format("移除Buffer(0)時，發生腳色身上的BufferID清單長度為0)", _bufferID));
             return;
