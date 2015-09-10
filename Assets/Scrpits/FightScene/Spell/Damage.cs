@@ -4,7 +4,7 @@ using System.Collections;
 public class Damage : ExecuteCom
 {
     //技能強度
-    public float ActionAttackRate { get; protected set; }
+    public float AttackRate { get; protected set; }
     //造成的實際傷害
     public int TrueDamage { get; protected set; }
     //此執行元件提供的貢獻值
@@ -12,10 +12,10 @@ public class Damage : ExecuteCom
     /// <summary>
     /// 初始化施法的傷害效果
     /// </summary>
-    public Damage(string _actionName, ExecuteType _type, Chara _self, float _actionAttackRate)
+    public Damage(string _actionName, ExecuteType _type, Chara _self, float _attackRate)
         : base(_actionName, _type, _self)
     {
-        ActionAttackRate = _actionAttackRate;
+        AttackRate = _attackRate;
     }
     /// <summary>
     /// 用於腳色施法執行傷害效果時，傳入目標，對目標造成傷害
@@ -32,7 +32,7 @@ public class Damage : ExecuteCom
     {
         int damage = 0;
         //物理殺傷力= (腳色攻擊值+裝備攻擊值+效果攻擊加值) *(效果攻擊乘值) * (技能強度) * ((1+(目前精神/最大精神))/2)
-        int lethality = (int)((Self.BaseAttack + Self.EquipAttack + Self.BufferAttackVlue) * (Self.BufferAttackRate) * (ActionAttackRate) * ((1 + (Self.CurMind / Self.MaxMind)) / 2));
+        int lethality = (int)((Self.BaseAttack + Self.EquipAttack + Self.BufferAttackVlue) * (Self.BufferAttackRate) * (AttackRate) * ((1 + (Self.CurMind / Self.MaxMind)) / 2));
         Contribution = lethality;
         //(腳色防禦值+裝備防禦值+效果防禦加值) *(效果防禦乘值)*(裝備抵抗強度)
         int resistance = (int)((Target.BaseDefense + Target.EquipDefense + Target.BufferDefenseValue) * Target.BufferDefenseRate * Target.EquipDefenseRate);

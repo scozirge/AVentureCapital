@@ -7,9 +7,9 @@ public class Sell
     //施法名稱
     public string Name { get; private set; }
     //施法時間
-    public float Time { get; private set; }
+    public float CD { get; private set; }
     //執行施法剩餘時間
-    public float RemainTime { get; private set; }
+    public float CDTimer { get; private set; }
     //每次時間流逝的單位時間
     const float TimeUnit = 0.1f;
     //執行列表
@@ -24,8 +24,8 @@ public class Sell
     public Sell(string _name, float _time, List<ExecuteCom> _executeList, Chara _self, bool _attackAction)
     {
         Name = _name;
-        Time = _time;
-        RemainTime = Time;
+        CD = _time;
+        CDTimer = CD;
         ExecuteList = _executeList;
         Self = _self;
         IsAttackAction = _attackAction;
@@ -36,14 +36,14 @@ public class Sell
     public bool ExecuteCheck()
     {
         bool execute = false;
-        if (RemainTime > 0)
+        if (CDTimer > 0)
         {
-            RemainTime -= TimeUnit;
+            CDTimer -= TimeUnit;
         }
         else
         {
             execute = true;
-            RemainTime = Time;
+            CDTimer = CD;
             Execute();
         }
         return execute;
