@@ -1,11 +1,9 @@
 ﻿public enum BufferType
 {
-    Damage,
-    PhysicsDamage,
+    PhysicalDamage,
     MindDamage,
-    Weak,
-    PhysicsWeak,
+    PhysicalWeak,
     MindWeak,
-    PhysicsControl,
+    PhysicalControl,
     MindControl
 }

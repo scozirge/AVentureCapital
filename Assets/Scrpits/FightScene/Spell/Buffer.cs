@@ -31,13 +31,13 @@ public class Buffer : ExecuteCom
     //最高疊加層數
     public int MaxStack { get; protected set; }
     //增加的攻擊加值
-    public int BufferAttackVlaue { get; protected set; }
+    public int AttackVlaue { get; protected set; }
     //增加的攻擊乘值
-    public float BufferAttackRate { get; protected set; }
+    public float AttackRate { get; protected set; }
     //增加的防禦加值
-    public int BufferDefenseVlaue { get; protected set; }
+    public int DefenseVlaue { get; protected set; }
     //增加的防禦乘值
-    public float BufferDefenseRate { get; protected set; }
+    public float DefenseRate { get; protected set; }
     //此執行效果提供的貢獻率
     public float ContributionRate { get; protected set; }
 
@@ -56,10 +56,10 @@ public class Buffer : ExecuteCom
         IniTrigger = bool.Parse((_attrDic["IniTrigger"]));
         Stackable = bool.Parse((_attrDic["Stackable"]));
         MaxStack = int.Parse(_attrDic["MaxStack"]);
-        BufferAttackVlaue = int.Parse(_attrDic["BufferAttackValue"]);
-        BufferAttackRate = float.Parse(_attrDic["BufferAttackRate"]);
-        BufferDefenseVlaue = int.Parse(_attrDic["BufferDefenseValue"]);
-        BufferDefenseRate = float.Parse(_attrDic["BufferDefenseRate"]);
+        AttackVlaue = int.Parse(_attrDic["BufferAttackValue"]);
+        AttackRate = float.Parse(_attrDic["BufferAttackRate"]);
+        DefenseVlaue = int.Parse(_attrDic["BufferDefenseValue"]);
+        DefenseRate = float.Parse(_attrDic["BufferDefenseRate"]);
         ContributionRate = float.Parse(_attrDic["ContributionRate"]);
     }
     /// <summary>
