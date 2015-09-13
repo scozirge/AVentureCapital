@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Sell
+public class Spell
 {
     //施法名稱
     public string Name { get; private set; }
@@ -21,7 +21,7 @@ public class Sell
     /// <summary>
     /// 設定施法內容
     /// </summary>
-    public Sell(string _name, float _time, List<ExecuteCom> _executeList, Chara _self, bool _attackAction)
+    public Spell(string _name, float _time, List<ExecuteCom> _executeList, Chara _self, bool _attackAction)
     {
         Name = _name;
         CD = _time;
