@@ -6,11 +6,11 @@ public abstract partial class Chara : MonoBehaviour
 {
     protected Transform MyTransform;
     //施法列表
-    public List<Sell> ActionList { get; protected set; }
+    public List<Spell> ActionList { get; protected set; }
     /// <summary>
     /// 起始設定
     /// </summary>
-    public virtual void IniChara(Dictionary<string, string> _attrDic, List<Sell> _actionList)
+    public virtual void IniChara(Dictionary<string, string> _attrDic, List<Spell> _actionList)
     {
         MyTransform = transform;
         Name = _attrDic["Name"];

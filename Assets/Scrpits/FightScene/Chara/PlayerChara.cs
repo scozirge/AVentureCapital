@@ -8,7 +8,7 @@ public class PlayerChara : Chara
     /// <summary>
     /// 起始設定
     /// </summary>
-    public void StartSet(int _index, Dictionary<string, string> _attrDic, List<Sell> _actionList)
+    public void StartSet(int _index, Dictionary<string, string> _attrDic, List<Spell> _actionList)
     {
         base.IniChara(_attrDic, _actionList);
         Index = _index;
