@@ -5,6 +5,9 @@ Temp/
 Obj/
 UnityGenerated/
 Library/
+Designer\Art
+Designer\Questions
+Designer\Reference
 Assets/AssetStoreTools*
 
 # ===================================== #
