@@ -10,28 +10,15 @@ public class BufferDamage : Damage
     public BufferDamage(string _actionName, ExecuteType _type, Chara _self, Chara _target, float _actionAttackRate)
         : base(_actionName, _type, _self, _actionAttackRate)
     {
-        Target = _target;
     }
     /// <summary>
     /// 複寫Damage傳入目標的Execute方法，狀態引發的傷害目標是初始化時就給予了，不能再執行Execute時給予
     /// </summary>
     public override void Execute(Chara _target)
     {
-        Execute();
-    }
-    /// <summary>
-    /// 執行
-    /// </summary>
-    public void Execute()
-    {
         //取得實際傷害量
-        TrueDamage = GetDamage();
-        Debug.Log(string.Format("{0}受到{1}狀態影響，造成{2}點{3}", Self.Name, ActionName, TrueDamage, Type));//ex:大惡魔受到砍殺狀態影響，造成56點傷害
-        Target.GetDamge(TrueDamage);
+        TrueDamage = GetDamage(_target);
+        Debug.Log(string.Format("{0}受到{1}狀態影響，造成{2}點{3}", Self.Name, SpellName, TrueDamage, Type));//ex:大惡魔受到砍殺狀態影響，造成56點傷害
+        _target.ReceiveDamge(TrueDamage);
     }
-    protected override int GetDamage()
-    {
-        return base.GetDamage();
-    }
-
 }

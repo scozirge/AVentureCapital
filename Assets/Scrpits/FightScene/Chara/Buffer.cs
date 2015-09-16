@@ -21,7 +21,7 @@ public abstract partial class Chara : MonoBehaviour
     /// <summary>
     /// 腳色取得Buffer狀態，傳入Buffer狀態
     /// </summary>
-    public virtual void GetBuffer(Buffer _buffer)
+    public virtual void ReceiveBuffer(Buffer _buffer)
     {
         if (BufferDic == null)
         {
@@ -34,7 +34,7 @@ public abstract partial class Chara : MonoBehaviour
             Go_BufferEntity = Instantiate(Prefab_BufferEntity, Vector2.zero, Quaternion.identity) as GameObject;
             Go_BufferEntity.transform.parent = Trans_BufferList;
             Com_BufferEntity = Go_BufferEntity.GetComponent<BufferEntity>();
-            Com_BufferEntity.IniBuffer(_buffer);
+            Com_BufferEntity.IniBuffer(_buffer, this);
             List<BufferEntity> TmpBufferEntityList = new List<BufferEntity>();
             TmpBufferEntityList.Add(Com_BufferEntity);
             BufferDic.Add(_buffer.ID, TmpBufferEntityList);//加入BufferDIc字典
@@ -47,12 +47,12 @@ public abstract partial class Chara : MonoBehaviour
                 Go_BufferEntity = Instantiate(Prefab_BufferEntity, Vector2.zero, Quaternion.identity) as GameObject;
                 Go_BufferEntity.transform.parent = Trans_BufferList;
                 Com_BufferEntity = Go_BufferEntity.GetComponent<BufferEntity>();
-                Com_BufferEntity.IniBuffer(_buffer);
+                Com_BufferEntity.IniBuffer(_buffer, this);
                 BufferDic[_buffer.ID].Add(Com_BufferEntity);
             }
             else//如果此狀態不可疊加
             {
-                BufferDic[_buffer.ID][0].IniBuffer(_buffer);
+                BufferDic[_buffer.ID][0].IniBuffer(_buffer, this);
             }
         }
     }
@@ -68,10 +68,13 @@ public abstract partial class Chara : MonoBehaviour
             Debug.LogWarning(string.Format("移除Buffer(0)時，發生腳色身上的BufferID清單長度為0)", _bufferID));
             return;
         }
-        //將Buffer字典裡此ID的buffer清單最早加入的Buffer清掉;
+        //將Buffer字典裡此ID的buffer清單中最早加入的Buffer清掉;
         BufferDic[_bufferID].RemoveAt(0);
         //如果清單長度為0，代表已經沒有此BufferID的狀態，將此BufferID從字典中移除
         if (BufferDic[_bufferID].Count == 0)
+        {
+            Debug.LogWarning("移除_bufferID=" + _bufferID);
             BufferDic.Remove(_bufferID);
+        }
     }
 }

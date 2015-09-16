@@ -5,6 +5,8 @@ public abstract partial class Chara : MonoBehaviour
 {
     //名稱
     public string Name { get; protected set; }
+    //腳色索引，代表第幾隻腳色，玩家腳色=0~2，敵方腳色=0~2
+    public int Index { get; protected set; }
     //腳色類型
     public CharaType TheCharaType { get; protected set; }
     ////////////////////////狀態//////////////////////////

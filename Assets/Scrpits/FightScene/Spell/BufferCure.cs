@@ -6,7 +6,7 @@ public class BufferCure : Cure
     public BufferCure(string _actionName, ExecuteType _type, Chara _self, Chara _target, int _baseCure)
         : base(_actionName, _type, _self, _baseCure)
     {
-        Target = _target;
+        //Target = _target;
     }
     /// <summary>
     /// 複寫Cure傳入目標的Execute方法，狀態引發的治癒目標是初始化時就給予了，不能再執行Execute時給予
@@ -21,7 +21,7 @@ public class BufferCure : Cure
     public void Execute()
     {
         TrueCure = GetCure();//取得實際治癒量
-        Debug.Log(string.Format("{0}受到{1}狀態影響，造成{2}點{3}", Self.Name, ActionName, TrueCure, Type));//ex:勇者受到祝福狀態影響，造成56點治癒
-        Target.GetCure(TrueCure);
+        Debug.Log(string.Format("{0}受到{1}狀態影響，造成{2}點{3}", Self.Name, SpellName, TrueCure, Type));//ex:勇者受到祝福狀態影響，造成56點治癒
+        //Target.GetCure(TrueCure);
     }
 }

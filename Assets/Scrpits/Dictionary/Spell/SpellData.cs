@@ -9,6 +9,7 @@ public class SpellData
     public int ID { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
+    public bool IsAttack { get; private set; }
     public string TriggerExecute { get; private set; }
     /// <summary>
     /// 將字典傳入，依json表設定資料
@@ -33,6 +34,7 @@ public class SpellData
             ID = int.Parse(item["ID"].ToString());
             Name = item["Name"].ToString();
             Description = item["Description"].ToString();
+            IsAttack = bool.Parse(item["IsAttack"].ToString());
             TriggerExecute = item["TriggerExecute"].ToString();
         }
         catch (Exception ex)

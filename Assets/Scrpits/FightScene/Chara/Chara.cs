@@ -10,10 +10,11 @@ public abstract partial class Chara : MonoBehaviour
     /// <summary>
     /// 起始設定
     /// </summary>
-    public virtual void IniChara(Dictionary<string, string> _attrDic, List<Spell> _actionList)
+    public virtual void IniChara(int _index, Dictionary<string, string> _attrDic, List<Spell> _actionList)
     {
         MyTransform = transform;
         Name = _attrDic["Name"];
+        Index = _index;
         //狀態
         MaxHP = int.Parse(_attrDic["MaxHP"]);
         CurHP = int.Parse(_attrDic["CurHP"]);
@@ -31,6 +32,7 @@ public abstract partial class Chara : MonoBehaviour
         EquipAttack = int.Parse(_attrDic["EquipAttack"]);
         BufferAttackVlue = 0;
         BufferAttackRate = 1;
+        //施法
         ActionList = _actionList;
         //初始化Buffer
         IniBuffer();
@@ -40,7 +42,7 @@ public abstract partial class Chara : MonoBehaviour
     /// <summary>
     /// 傳入傷害量，造成傷害
     /// </summary>
-    public virtual void GetDamge(int _damage)
+    public virtual void ReceiveDamge(int _damage)
     {
         //不可對死者進行攻擊
         if (!IsAlive)
@@ -57,7 +59,7 @@ public abstract partial class Chara : MonoBehaviour
     /// <summary>
     /// 傳入治癒量，恢復血量
     /// </summary>
-    public virtual void GetCure(int _cure)
+    public virtual void ReceiveCure(int _cure)
     {
         //不可對死者進行治癒
         if (!IsAlive)
@@ -75,32 +77,42 @@ public abstract partial class Chara : MonoBehaviour
     /// </summary>
     protected virtual void AliveCheck()
     {
+        //腳色死亡
         if (CurHP <= 0)
         {
             Debug.Log(string.Format("{0}死亡", Name));
             IsAlive = false;
+            PlayMotion(Motion.Die, 0);
+            FightScene.CheckAliveChara();//更新死亡腳色清單
         }
     }
     /// <summary>
-    /// 時間流逝，代表此腳色有時間元素的屬性都要計算經過時間，例如施法執行、狀態效果的時間
+    /// 1.時間流逝，代表此腳色有時間元素的屬性都要計算經過時間，例如施法執行、狀態效果的時間
+    /// 2.會先觸發狀態效果再進行施法判定
     /// </summary>
     public virtual void TimePass()
     {
-        for (int i = 0; i < ActionList.Count; i++)
-        {
-            if (ActionList[i].ExecuteCheck())
-            {
-                //播放施法
-                PlayMotion(Motion.Action);
-            }
-        }
+        //如果腳色死亡，時間則不再流逝(不會觸發狀態，也不會進行施法)
+        if (!IsAlive)
+            return;
+        //觸發狀態
         List<int> bufferKeys = new List<int>(BufferDic.Keys);
         for (int i = 0; i < bufferKeys.Count; i++)
         {
-            for(int j=0;j<BufferDic[bufferKeys[i]].Count;j++)
+            for (int j = 0; j < BufferDic[bufferKeys[i]].Count; j++)
             {
                 BufferDic[bufferKeys[i]][j].ExecuteCheck();
+                //如果在執行ExecuteCheck後發現BufferDic已經不存在ID，代表此狀態在ExecuteCheck中判定時效已過而遭刪除
+                //跳出迴圈
+                if (!BufferDic.ContainsKey(bufferKeys[i]))
+                    break;
             }
         }
+        //施法
+        for (int i = 0; i < ActionList.Count; i++)
+        {
+            ActionList[i].ExecuteCheck();
+        }
+
     }
 }

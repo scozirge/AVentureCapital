@@ -18,8 +18,8 @@ public class Cure : ExecuteCom
     {
         base.Execute(_target);
         TrueCure = GetCure();//取得實際治癒量
-        Debug.Log(string.Format("{0}施放{1}對{2}恢復{3}點{4}", Self.Name, ActionName, Target.Name, TrueCure, Type));//ex:勇者施放治癒隊友造成46點恢復
-        Target.GetCure(TrueCure);
+        Debug.Log(string.Format("{0}施放{1}對{2}恢復{3}點{4}", Self.Name, SpellName, _target.Name, TrueCure, Type));//ex:勇者施放治癒隊友造成46點恢復
+        _target.ReceiveCure(TrueCure);
     }
     protected int GetCure()
     {

@@ -1,6 +1,9 @@
 ﻿public enum Motion
 {
     Stay,
-    Action,
-    Beaten
+    GoForward,
+    Attack,
+    Beaten,
+    Support,
+    Die
 }

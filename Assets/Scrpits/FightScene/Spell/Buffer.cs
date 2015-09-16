@@ -68,7 +68,7 @@ public class Buffer : ExecuteCom
     public override void Execute(Chara _target)
     {
         base.Execute(_target);
-        Debug.Log(string.Format("{0}施放{1}對{2}附加{3}{4}", Self.Name, ActionName, Target.Name, TheBufferType, Type));//ex:勇者施放砍殺對大惡魔附加流血狀態
-        Target.GetBuffer(this);
+        Debug.Log(string.Format("{0}施放{1}對{2}附加{3}{4}", Self.Name, SpellName, _target.Name, TheBufferType, Type));//ex:勇者施放砍殺對大惡魔附加流血狀態
+        _target.ReceiveBuffer(this);
     }
 }

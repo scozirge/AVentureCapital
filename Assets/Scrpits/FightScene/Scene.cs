@@ -20,6 +20,8 @@ public partial class FightScene
         Adventure = true;
         //播放背景動畫
         Ani_BG.enabled = true;
+        //腳色播放向前走動畫
+        SetPlayerCharaMotion(Motion.GoForward, true);
     }
     /// <summary>
     /// 遭遇敵方
@@ -40,16 +42,26 @@ public partial class FightScene
         Ani_BG.enabled = false;
         //開始戰鬥
         Fight = true;
+        //腳色播放待機動畫
+        SetPlayerCharaMotion(Motion.Stay, true);
     }
     /// <summary>
-    /// 檢查更新還活者的腳色清單
+    /// 1.檢查更新還活者的腳色清單
+    /// 2.在腳色死亡時呼叫
     /// </summary>
     public static void CheckAliveChara()
     {
+        //Player
         for (int i = 0; i < PAliveCharaList.Count; i++)
         {
             if (!PAliveCharaList[i].IsAlive)
                 PAliveCharaList.RemoveAt(i);
+        }
+        //Enemy
+        for (int i = 0; i < EAliveCharaList.Count; i++)
+        {
+            if (!EAliveCharaList[i].IsAlive)
+                EAliveCharaList.RemoveAt(i);
         }
     }
 
