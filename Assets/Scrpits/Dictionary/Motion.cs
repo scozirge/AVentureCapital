@@ -5,5 +5,6 @@
     Attack,
     Beaten,
     Support,
-    Die
+    Die,
+    Meter
 }

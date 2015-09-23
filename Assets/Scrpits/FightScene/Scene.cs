@@ -17,6 +17,8 @@ public partial class FightScene
     /// </summary>
     public static void StartAdventure()
     {
+        //播放行進音樂
+        AudioPlayer.Play(Audios.GoForward);
         Adventure = true;
         //播放背景動畫
         Ani_BG.enabled = true;
@@ -36,6 +38,8 @@ public partial class FightScene
     /// </summary>
     public static void StartFight()
     {
+        //播放戰鬥音樂
+        AudioPlayer.Play(Audios.Fight);
         //停止冒險
         Adventure = false;
         //停止背景動畫

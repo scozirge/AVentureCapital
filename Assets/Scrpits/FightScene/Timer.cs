@@ -12,7 +12,7 @@ public partial class FightScene
     //冒險每個影格單位時間
     const float AdventureTimeUnit = 1;
     //冒險一輪的單位時間
-    const float AdventureRoundUnits = 1;
+    const float AdventureRoundUnits = 10;
     //冒險計時器
     static float AdventureTimer;
 

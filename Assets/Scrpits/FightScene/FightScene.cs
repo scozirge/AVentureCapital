@@ -24,13 +24,15 @@ public partial class FightScene : MonoBehaviour
     static GameObject Prefab_FightSceneUI;
     static GameObject Go_FightSceneUI;
     static Vector2 V2_FightScene;
-
+    //音效音樂
+    static AudioPlayer FAudio;
     void Start()
     {
         FS = this;
         LoadObj();
         SetData();
         LoadUI();
+        SetAudio();
         //開始冒險
         StartAdventure();
     }
@@ -49,6 +51,7 @@ public partial class FightScene : MonoBehaviour
         EAliveCharaList = new List<EnemyChara>();
         Trans_PlayerCharas = MyTransform.FindChild("Charas").FindChild("PlayerCharas");
         Trans_EnemyCharas = MyTransform.FindChild("Charas").FindChild("EnemyCharas");
+        FAudio = MyTransform.FindChild("Audios").GetComponent<AudioPlayer>();
         for (int i = 0; i < 3; i++)
         {
             //Player
@@ -60,6 +63,13 @@ public partial class FightScene : MonoBehaviour
             ECharaList.Add(ECharaDic[i.ToString()]);
             EAliveCharaList.Add(ECharaDic[i.ToString()]);
         }
+    }
+    /// <summary>
+    /// 初始化音樂音效
+    /// </summary>
+    void SetAudio()
+    {
+        FAudio.IniAudio();
     }
     /// <summary>
     /// 取得UI物件
@@ -119,11 +129,14 @@ public partial class FightScene : MonoBehaviour
     /// <summary>
     /// 玩家腳色播放動作，傳入動作類型與是否錯開播放
     /// </summary>
-    static void SetPlayerCharaMotion(Motion _motion, bool _stagger)
+    public static void SetPlayerCharaMotion(Motion _motion, bool _stagger)
     {
         for (int i = 0; i < PCharaList.Count; i++)
         {
-            PCharaList[i].PlayMotion(_motion, ((float)i * 2f) / 10f);
+            if (_stagger)
+                PCharaList[i].PlayMotion(_motion, ((float)i * 2f) / 10f);
+            else
+                PCharaList[i].PlayMotion(_motion, 0);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public partial class GameDictionary
 {
+    //暫時
     public static Dictionary<string, string> TmpChara1Dic { get; private set; }
     public static Dictionary<string, string> TmpChara2Dic { get; private set; }
     public static Dictionary<string, string> TmpChara3Dic { get; private set; }
@@ -12,12 +13,15 @@ public partial class GameDictionary
     public static List<Spell> Chara2ActionList { get; private set; }
     public static List<Spell> Chara3ActionList { get; private set; }
     public static List<Spell> EnemyActionList { get; private set; }
+    //音樂音效字典
+    public static Dictionary<Audios, AudioClip> AudioDic;
     /// <summary>
     /// 設定字典
     /// </summary>
     public static void SetDic()
     {
         LoadJsonDataToDic();
+        LoadAudioData();
         TmpChara1Dic = new Dictionary<string, string>();
         TmpChara2Dic = new Dictionary<string, string>();
         TmpChara3Dic = new Dictionary<string, string>();
@@ -104,5 +108,11 @@ public partial class GameDictionary
         executeList3.Add(cure3);
         Spell ac3 = new Spell("治癒", 3.5f, executeList3, FightScene.PCharaList[2], false);
         Chara3ActionList.Add(ac3);
+    }
+    static void LoadAudioData()
+    {
+        AudioDic = new Dictionary<Audios, AudioClip>();
+        AudioDic.Add(Audios.Fight, Resources.Load<AudioClip>(string.Format("Audio/WAV/{0}", Audios.Fight)));
+        AudioDic.Add(Audios.GoForward, Resources.Load<AudioClip>(string.Format("Audio/WAV/{0}", Audios.GoForward)));
     }
 }

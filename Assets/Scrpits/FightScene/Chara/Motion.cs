@@ -9,7 +9,7 @@ public abstract partial class Chara : MonoBehaviour
     /// </summary>
     void IniMotion()
     {
-        Ani_Chara = MyTransform.GetComponent<Animator>();
+        Ani_Chara = MyTransform.FindChild("Model").GetComponent<Animator>();
     }
     /// <summary>
     /// 播放腳色施法
