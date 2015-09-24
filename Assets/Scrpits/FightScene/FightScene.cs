@@ -20,10 +20,6 @@ public partial class FightScene : MonoBehaviour
     public static Dictionary<string, EnemyChara> ECharaDic;
     public static List<EnemyChara> ECharaList;
     public static List<EnemyChara> EAliveCharaList;
-    //UI
-    static GameObject Prefab_FightSceneUI;
-    static GameObject Go_FightSceneUI;
-    static Vector2 V2_FightScene;
     //音效音樂
     static AudioPlayer FAudio;
     void Start()
@@ -76,11 +72,6 @@ public partial class FightScene : MonoBehaviour
     /// </summary>
     void LoadUI()
     {
-        //FightSceneUI
-        V2_FightScene = new Vector2(15, 0);
-        Prefab_FightSceneUI = Resources.Load<GameObject>("GameObjects/FightScene/FightSceneUI");
-        Go_FightSceneUI = Instantiate(Prefab_FightSceneUI, V2_FightScene, Quaternion.identity) as GameObject;
-        Go_FightSceneUI.GetComponent<FightSceneUI>().StartSet();
     }
     /// <summary>
     /// 起始設定
