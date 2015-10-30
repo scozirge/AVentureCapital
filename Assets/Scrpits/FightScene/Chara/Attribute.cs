@@ -14,10 +14,14 @@ public abstract partial class Chara : MonoBehaviour
     public int MaxHP { get; protected set; }
     //目前血量
     public int CurHP { get; protected set; }
-    //最大精神
+    //血量健康率 CurHP/MaxHP
+    public float HealthRatio { get; private set; }
+    //最大心智
     public int MaxMind { get; protected set; }
-    //目前精神
+    //目前心智
     public int CurMind { get; protected set; }
+    //心智健康率 CurMind/MaxMind
+    public float MindRatio { get; private set; }
     //是否存活
     public bool IsAlive { get; protected set; }
     ////////////////////////防禦//////////////////////////

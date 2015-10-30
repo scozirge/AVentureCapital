@@ -18,8 +18,10 @@ public abstract partial class Chara : MonoBehaviour
         //狀態
         MaxHP = int.Parse(_attrDic["MaxHP"]);
         CurHP = int.Parse(_attrDic["CurHP"]);
+        UpdateHealthRatio();
         MaxMind = int.Parse(_attrDic["MaxMind"]);
         CurMind = int.Parse(_attrDic["CurMind"]);
+        UpdateMindRatio();
         IsAlive = true;
         //防禦
         BaseDefense = int.Parse(_attrDic["BaseDefense"]);
@@ -40,9 +42,9 @@ public abstract partial class Chara : MonoBehaviour
         IniMotion();
     }
     /// <summary>
-    /// 傳入傷害量，造成傷害
+    /// 對角色造成傷害，傳入[造成的傷害][是否在ICON顯示被擊中效果]
     /// </summary>
-    public virtual void ReceiveDamge(int _damage)
+    public virtual void ReceiveDamge(int _damage,bool _iconHit)
     {
         //不可對死者進行攻擊
         if (!IsAlive)
@@ -54,6 +56,10 @@ public abstract partial class Chara : MonoBehaviour
         if (CurHP - _damage < 0)
             _damage = CurHP;
         CurHP -= _damage;
+        UpdateHealthRatio();
+        //更新腳色介面
+        CharaDataUI.UpdateData(Index);
+        //檢查是否存活
         AliveCheck();
     }
     /// <summary>
@@ -71,6 +77,23 @@ public abstract partial class Chara : MonoBehaviour
         if (CurHP + _cure > MaxHP)
             _cure = MaxHP - CurHP;
         CurHP += _cure;
+        UpdateHealthRatio();
+        //更新腳色介面
+        CharaDataUI.UpdateData(Index);
+    }
+    /// <summary>
+    /// 更新血量健康率
+    /// </summary>
+    protected void UpdateHealthRatio()
+    {
+        HealthRatio = (float)((float)CurHP / (float)MaxHP);
+    }
+    /// <summary>
+    /// 更新心智健康率
+    /// </summary>
+    protected void UpdateMindRatio()
+    {
+        MindRatio = (float)((float)CurMind / (float)MaxMind);
     }
     /// <summary>
     /// 檢查是否還存活
@@ -113,6 +136,5 @@ public abstract partial class Chara : MonoBehaviour
         {
             ActionList[i].ExecuteCheck();
         }
-
     }
 }

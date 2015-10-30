@@ -29,6 +29,7 @@ public partial class FightScene : MonoBehaviour
         SetData();
         LoadUI();
         SetAudio();
+        CharaDataUI.UpdateData();
         //開始冒險
         StartAdventure();
     }
@@ -72,6 +73,10 @@ public partial class FightScene : MonoBehaviour
     /// </summary>
     void LoadUI()
     {
+        //產生FightSceneUI並初始化
+        GameObject prefab_FightScene = Resources.Load<GameObject>("GameObjects/FightScene/UI/FightSceneUI");
+        GameObject go_FightScene = Instantiate(prefab_FightScene, Vector2.zero, Quaternion.identity) as GameObject;
+        go_FightScene.GetComponent<FightSceneUI>().Init();//初始化
     }
     /// <summary>
     /// 起始設定

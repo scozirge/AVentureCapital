@@ -19,6 +19,6 @@ public class BufferDamage : Damage
         //取得實際傷害量
         TrueDamage = GetDamage(_target);
         Debug.Log(string.Format("{0}受到{1}狀態影響，造成{2}點{3}", Self.Name, SpellName, TrueDamage, Type));//ex:大惡魔受到砍殺狀態影響，造成56點傷害
-        _target.ReceiveDamge(TrueDamage);
+        _target.ReceiveDamge(TrueDamage, false);
     }
 }

@@ -78,7 +78,6 @@ public class Spell
         {
             ExecuteList[i].Execute(CurTarget);
         }
-        FightSceneUI.RefreshHPUI();
     }
     /// <summary>
     /// 選擇目標
