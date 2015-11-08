@@ -17,10 +17,14 @@ public class BufferData
     public string TriggerExecute { get; private set; }
     public bool Stackable { get; private set; }
     public int MaxStack { get; private set; }
-    public int AttackValue { get; private set; }
-    public float AttackRate { get; private set; }
-    public int DefenseValue { get; private set; }
-    public float DefenseRate { get; private set; }
+    public int PAttack { get; private set; }
+    public float PLethalityRate { get; private set; }
+    public int MAttack { get; private set; }
+    public float MLethalityRate { get; private set; }
+    public int PDefense { get; private set; }
+    public float PResistanceRate { get; private set; }
+    public int MDefense { get; private set; }
+    public float MResistanceRate { get; private set; }
     /// <summary>
     /// 將字典傳入，依json表設定資料
     /// </summary>
@@ -43,7 +47,7 @@ public class BufferData
             JsonData item = _item;
             ID = int.Parse(item["ID"].ToString());
             Probability = float.Parse(item["Probability"].ToString());
-            Type = (BufferType)Enum.Parse(typeof(BufferType), item["Probability"].ToString());
+            Type = (BufferType)Enum.Parse(typeof(BufferType), item["BufferType"].ToString());
             IsBuff = bool.Parse(item["IsBuff"].ToString());
             IsDeBuff = bool.Parse(item["IsDeBuff"].ToString());
             Duration = float.Parse(item["Duration"].ToString());
@@ -52,12 +56,16 @@ public class BufferData
             TriggerExecute = item["TriggerExecute"].ToString();
             Stackable = bool.Parse(item["Stackable"].ToString());
             MaxStack = int.Parse(item["MaxStack"].ToString());
-            AttackValue = int.Parse(item["AttackValue"].ToString());
-            AttackRate = float.Parse(item["AttackRate"].ToString());
-            DefenseValue = int.Parse(item["DefenseValue"].ToString());
-            DefenseRate = float.Parse(item["DefenseRate"].ToString());
+            PAttack = int.Parse(item["PAttack"].ToString());
+            PLethalityRate = float.Parse(item["PLethalityRate"].ToString());
+            MAttack = int.Parse(item["MAttack"].ToString());
+            MLethalityRate = float.Parse(item["MLethalityRate"].ToString());
+            PDefense = int.Parse(item["PDefense"].ToString());
+            PResistanceRate = float.Parse(item["PResistanceRate"].ToString());
+            MDefense = int.Parse(item["MDefense"].ToString());
+            MResistanceRate = float.Parse(item["MResistanceRate"].ToString());
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Debug.LogException(ex);
         }

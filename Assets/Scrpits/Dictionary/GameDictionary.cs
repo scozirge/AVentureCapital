@@ -9,10 +9,6 @@ public partial class GameDictionary
     public static Dictionary<string, string> TmpChara2Dic { get; private set; }
     public static Dictionary<string, string> TmpChara3Dic { get; private set; }
     public static Dictionary<string, string> TmpEnemyDic { get; private set; }
-    public static List<Spell> Chara1ActionList { get; private set; }
-    public static List<Spell> Chara2ActionList { get; private set; }
-    public static List<Spell> Chara3ActionList { get; private set; }
-    public static List<Spell> EnemyActionList { get; private set; }
     //音樂音效字典
     public static Dictionary<Audios, AudioClip> AudioDic;
     /// <summary>
@@ -27,8 +23,8 @@ public partial class GameDictionary
         TmpChara3Dic = new Dictionary<string, string>();
         TmpEnemyDic = new Dictionary<string, string>();
         TmpChara1Dic.Add("Name", "腳色1");
-        TmpChara1Dic.Add("MaxHP", "520");
-        TmpChara1Dic.Add("CurHP", "520");
+        TmpChara1Dic.Add("MaxHP", "1050");
+        TmpChara1Dic.Add("CurHP", "1050");
         TmpChara1Dic.Add("MaxMind", "680");
         TmpChara1Dic.Add("CurMind", "680");
         TmpChara1Dic.Add("BaseDefense", "40");
@@ -36,10 +32,12 @@ public partial class GameDictionary
         TmpChara1Dic.Add("EquipDefenseRate", "1");
         TmpChara1Dic.Add("BaseAttack", "60");
         TmpChara1Dic.Add("EquipAttack", "50");
+        TmpChara1Dic.Add("SpellList", "21");
+        TmpChara1Dic.Add("ActivitySpellList", "0");
 
         TmpChara2Dic.Add("Name", "腳色2");
-        TmpChara2Dic.Add("MaxHP", "420");
-        TmpChara2Dic.Add("CurHP", "420");
+        TmpChara2Dic.Add("MaxHP", "1020");
+        TmpChara2Dic.Add("CurHP", "1020");
         TmpChara2Dic.Add("MaxMind", "380");
         TmpChara2Dic.Add("CurMind", "380");
         TmpChara2Dic.Add("BaseDefense", "30");
@@ -47,10 +45,12 @@ public partial class GameDictionary
         TmpChara2Dic.Add("EquipDefenseRate", "1.2");
         TmpChara2Dic.Add("BaseAttack", "40");
         TmpChara2Dic.Add("EquipAttack", "50");
+        TmpChara2Dic.Add("SpellList", "0");
+        TmpChara2Dic.Add("ActivitySpellList", "0");
 
         TmpChara3Dic.Add("Name", "腳色3");
-        TmpChara3Dic.Add("MaxHP", "1800");
-        TmpChara3Dic.Add("CurHP", "1800");
+        TmpChara3Dic.Add("MaxHP", "1000");
+        TmpChara3Dic.Add("CurHP", "1000");
         TmpChara3Dic.Add("MaxMind", "330");
         TmpChara3Dic.Add("CurMind", "330");
         TmpChara3Dic.Add("BaseDefense", "40");
@@ -58,6 +58,8 @@ public partial class GameDictionary
         TmpChara3Dic.Add("EquipDefenseRate", "1.2");
         TmpChara3Dic.Add("BaseAttack", "50");
         TmpChara3Dic.Add("EquipAttack", "50");
+        TmpChara3Dic.Add("SpellList", "0");
+        TmpChara3Dic.Add("ActivitySpellList", "0");
 
         TmpEnemyDic.Add("Name", "大惡魔");
         TmpEnemyDic.Add("MaxHP", "1050");
@@ -69,45 +71,7 @@ public partial class GameDictionary
         TmpEnemyDic.Add("EquipDefenseRate", "1");
         TmpEnemyDic.Add("BaseAttack", "80");
         TmpEnemyDic.Add("EquipAttack", "150");
-        
-        Chara1ActionList = new List<Spell>();
-        Damage dmg = new Damage("砍殺", ExecuteType.Damage, FightScene.PCharaList[0], 1.3f);
-        Dictionary<string, string> bufferDic = new Dictionary<string, string>();
-        bufferDic.Add("BufferID", "1");
-        bufferDic.Add("Type", "PhysicalDamage");
-        bufferDic.Add("IsBuff", "True");
-        bufferDic.Add("IsDeBuff", "False");
-        bufferDic.Add("Probability", "1");
-        bufferDic.Add("Duration", "9");
-        bufferDic.Add("Circle", "3");
-        bufferDic.Add("IniTrigger", "True");
-        bufferDic.Add("Stackable", "True");
-        bufferDic.Add("MaxStack", "0");
-        bufferDic.Add("BufferAttackValue", "50");
-        bufferDic.Add("BufferAttackRate", "0.5");
-        bufferDic.Add("BufferDefenseValue", "50");
-        bufferDic.Add("BufferDefenseRate", "0.5");
-        bufferDic.Add("ContributionRate", "0.1");
-        Buffer buffer = new Buffer("砍殺", ExecuteType.Buffer, FightScene.PCharaList[0], bufferDic);
-        List<ExecuteCom> executeList = new List<ExecuteCom>();
-        executeList.Add(dmg);
-        executeList.Add(buffer);
-        Spell ac = new Spell("砍殺", 3f, executeList, FightScene.PCharaList[0], true);
-        Chara1ActionList.Add(ac);
-
-        Chara2ActionList = new List<Spell>();
-        Damage dmg2 = new Damage("戳刺", ExecuteType.Damage, FightScene.PCharaList[1], 1f);
-        List<ExecuteCom> executeList2 = new List<ExecuteCom>();
-        executeList2.Add(dmg2);
-        Spell ac2 = new Spell("戳刺", 2.5f, executeList2, FightScene.PCharaList[1], true);
-        Chara2ActionList.Add(ac2);
-
-        Chara3ActionList = new List<Spell>();
-        Cure cure3 = new Cure("治癒", ExecuteType.Cure, FightScene.PCharaList[2], 30);
-        List<ExecuteCom> executeList3 = new List<ExecuteCom>();
-        executeList3.Add(cure3);
-        Spell ac3 = new Spell("治癒", 3.5f, executeList3, FightScene.PCharaList[2], false);
-        Chara3ActionList.Add(ac3);
+        TmpEnemyDic.Add("SpellList", "0");
     }
     static void LoadAudioData()
     {

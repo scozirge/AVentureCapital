@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class CharaUI : MonoBehaviour
 {
+    bool IsInit;
     //腳色排序索引
     public int Index { get; private set; }
     //圖像&物件
@@ -11,9 +12,8 @@ public class CharaUI : MonoBehaviour
     Image Image_Icon;
     Animator Ani_IconCover;
     Animator Ani_Hit;
-    Image[] Image_Skills;
     Scrollbar SB_Health;
-    Scrollbar SB_Mind;
+    Image[] SpellCovers;
     /// <summary>
     /// 初始化
     /// </summary>
@@ -25,15 +25,25 @@ public class CharaUI : MonoBehaviour
         Image_Icon = Ani_Icon.transform.GetComponent<Image>();
         Ani_Hit = transform.FindChild("hit").GetComponent<Animator>();
         Ani_IconCover = transform.FindChild("iconCover").GetComponent<Animator>();
-        Image_Skills = new Image[2];
         SB_Health = transform.FindChild("Health").GetComponent<Scrollbar>();
-        SB_Mind = transform.FindChild("Mind").GetComponent<Scrollbar>();
+        //Spell
+        SpellCovers = new Image[2];
+        for (int i = 0; i < 2; i++)
+        {
+            SpellCovers[i] = transform.FindChild(string.Format("Spell{0}", i)).FindChild("cover").GetComponent<Image>();
+        }
+        IsInit = true;
     }
     /// <summary>
-    /// 擊中
+    /// 播放受到傷害動畫
     /// </summary>
-    public void Hit()
+    public void ShowDamageAni()
     {
+        if (!IsInit)
+        {
+            Debug.LogWarning("CharaUI尚未初始化就被呼叫");
+            return;
+        }
         //播放被打動畫
         if (Animator.StringToHash(string.Format("Base Layer.{0}", "Hit")) != Ani_Icon.GetCurrentAnimatorStateInfo(0).fullPathHash)
             Ani_Icon.SetTrigger("Hit");
@@ -43,10 +53,29 @@ public class CharaUI : MonoBehaviour
             Ani_IconCover.SetTrigger("Hit");
     }
     /// <summary>
+    /// 播放受到治癒動畫
+    /// </summary>
+    public void ShowHealingHealthAni()
+    {
+        if (!IsInit)
+        {
+            Debug.LogWarning("CharaUI尚未初始化就被呼叫");
+            return;
+        }
+        //播放被打動畫
+        if (Animator.StringToHash(string.Format("Base Layer.{0}", "Healing_Health")) != Ani_IconCover.GetCurrentAnimatorStateInfo(0).fullPathHash)
+            Ani_IconCover.SetTrigger("Healing_Health");
+    }
+    /// <summary>
     /// 死亡
     /// </summary>
     public void Dead()
     {
+        if (!IsInit)
+        {
+            Debug.LogWarning("CharaUI尚未初始化就被呼叫");
+            return;
+        }
         //播放死亡動畫
         if (Animator.StringToHash(string.Format("Base Layer.{0}", "Dead")) != Ani_Icon.GetCurrentAnimatorStateInfo(0).fullPathHash)
             Ani_Icon.SetTrigger("Dead");
@@ -54,11 +83,22 @@ public class CharaUI : MonoBehaviour
             Ani_IconCover.SetTrigger("Dead");
     }
     /// <summary>
-    /// 更新腳色血量與心智
+    /// 更新腳色血量
     /// </summary>
-    public void UpdateData()
+    public void UpdateHealth()
     {
+        if (!IsInit)
+        {
+            Debug.LogWarning("CharaUI尚未初始化就被呼叫");
+            return;
+        }
         SB_Health.size = FightScene.PCharaList[Index].HealthRatio;
-        SB_Mind.size = FightScene.PCharaList[Index].MindRatio;
+    }
+    /// <summary>
+    /// 更新腳色技能CD
+    /// </summary>
+    public void UpdateSpellCD()
+    {
+        //SpellCovers[0].fillAmount=
     }
 }

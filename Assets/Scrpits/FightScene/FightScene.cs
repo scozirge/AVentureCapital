@@ -86,13 +86,13 @@ public partial class FightScene : MonoBehaviour
         //字典
         GameDictionary.SetDic();
         //Player
-        PCharaList[0].IniChara(0, GameDictionary.TmpChara1Dic, GameDictionary.Chara1ActionList);
-        PCharaList[1].IniChara(1, GameDictionary.TmpChara2Dic, GameDictionary.Chara2ActionList);
-        PCharaList[2].IniChara(2, GameDictionary.TmpChara3Dic, GameDictionary.Chara3ActionList);
+        PCharaList[0].IniChara(0, GameDictionary.TmpChara1Dic);
+        PCharaList[1].IniChara(1, GameDictionary.TmpChara2Dic);
+        PCharaList[2].IniChara(2, GameDictionary.TmpChara3Dic);
         //Enemy
-        ECharaList[0].IniChara(0, GameDictionary.TmpChara1Dic, GameDictionary.Chara1ActionList);
-        ECharaList[1].IniChara(1, GameDictionary.TmpChara2Dic, GameDictionary.Chara2ActionList);
-        ECharaList[2].IniChara(2, GameDictionary.TmpChara3Dic, GameDictionary.Chara3ActionList);
+        ECharaList[0].IniChara(0, GameDictionary.TmpEnemyDic);
+        ECharaList[1].IniChara(1, GameDictionary.TmpEnemyDic);
+        ECharaList[2].IniChara(2, GameDictionary.TmpEnemyDic);
         //Timer
         SetTimer();
         //場景

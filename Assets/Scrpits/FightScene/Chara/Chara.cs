@@ -4,47 +4,59 @@ using System.Collections.Generic;
 
 public abstract partial class Chara : MonoBehaviour
 {
-    protected Transform MyTransform;
-    //施法列表
-    public List<Spell> ActionList { get; protected set; }
     /// <summary>
     /// 起始設定
     /// </summary>
-    public virtual void IniChara(int _index, Dictionary<string, string> _attrDic, List<Spell> _actionList)
+    public virtual void IniChara(int _index, Dictionary<string, string> _attrsDic)
     {
+        AttrsDic = _attrsDic;
         MyTransform = transform;
-        Name = _attrDic["Name"];
+        Name = AttrsDic["Name"];
         Index = _index;
         //狀態
-        MaxHP = int.Parse(_attrDic["MaxHP"]);
-        CurHP = int.Parse(_attrDic["CurHP"]);
+        MaxHP = int.Parse(AttrsDic["MaxHP"]);
+        CurHP = int.Parse(AttrsDic["CurHP"]);
         UpdateHealthRatio();
-        MaxMind = int.Parse(_attrDic["MaxMind"]);
-        CurMind = int.Parse(_attrDic["CurMind"]);
-        UpdateMindRatio();
         IsAlive = true;
         //防禦
-        BaseDefense = int.Parse(_attrDic["BaseDefense"]);
-        EquipDefense = int.Parse(_attrDic["EquipDefense"]);
+        BaseDefense = int.Parse(AttrsDic["BaseDefense"]);
+        EquipDefense = int.Parse(AttrsDic["EquipDefense"]);
         BufferDefenseValue = 0;
         BufferDefenseRate = 1;
-        EquipDefenseRate = float.Parse(_attrDic["EquipDefenseRate"]);
+        EquipDefenseRate = float.Parse(AttrsDic["EquipDefenseRate"]);
         //攻擊
-        BaseAttack = int.Parse(_attrDic["BaseAttack"]);
-        EquipAttack = int.Parse(_attrDic["EquipAttack"]);
+        BaseAttack = int.Parse(AttrsDic["BaseAttack"]);
+        EquipAttack = int.Parse(AttrsDic["EquipAttack"]);
         BufferAttackVlue = 0;
         BufferAttackRate = 1;
-        //施法
-        ActionList = _actionList;
         //初始化Buffer
         IniBuffer();
         //初始化動作
         IniMotion();
+        //初始化施法列表
+        InitSpell();
     }
     /// <summary>
-    /// 對角色造成傷害，傳入[造成的傷害][是否在ICON顯示被擊中效果]
+    /// 初始化技能
     /// </summary>
-    public virtual void ReceiveDamge(int _damage,bool _iconHit)
+    protected virtual void InitSpell()
+    {
+        SpellList = new List<Spell>();
+        string spellListStr = AttrsDic["SpellList"];
+        string[] spellIDStr = spellListStr.Split(',');
+        for (int i = 0; i < spellIDStr.Length;i++ )
+        {
+            int spellID = int.Parse(spellIDStr[i]);
+            if (spellID == 0)
+                continue;
+            Spell spell = new Spell(spellID, this);
+            SpellList.Add(spell);
+        }
+    }
+    /// <summary>
+    /// 對角色造成物理傷害，傳入[造成的傷害][是否在ICON顯示效果動畫]
+    /// </summary>
+    public virtual void ReceivePhysicalDamge(int _damage, bool _showIconAni, HitTextType _hitTextType)
     {
         //不可對死者進行攻擊
         if (!IsAlive)
@@ -56,6 +68,7 @@ public abstract partial class Chara : MonoBehaviour
         if (CurHP - _damage < 0)
             _damage = CurHP;
         CurHP -= _damage;
+        HitTextController.ShowHitText(this, _damage, _hitTextType);
         UpdateHealthRatio();
         //更新腳色介面
         CharaDataUI.UpdateData(Index);
@@ -63,9 +76,9 @@ public abstract partial class Chara : MonoBehaviour
         AliveCheck();
     }
     /// <summary>
-    /// 傳入治癒量，恢復血量
+    /// 對角色造成治癒，傳入[造成的治癒][是否在ICON顯示效果動畫]
     /// </summary>
-    public virtual void ReceiveCure(int _cure)
+    public virtual void ReceiveCure(int _cure, bool _showIconAni, HitTextType _hitTextType)
     {
         //不可對死者進行治癒
         if (!IsAlive)
@@ -78,6 +91,7 @@ public abstract partial class Chara : MonoBehaviour
             _cure = MaxHP - CurHP;
         CurHP += _cure;
         UpdateHealthRatio();
+        HitTextController.ShowHitText(this, _cure, _hitTextType);
         //更新腳色介面
         CharaDataUI.UpdateData(Index);
     }
@@ -87,13 +101,6 @@ public abstract partial class Chara : MonoBehaviour
     protected void UpdateHealthRatio()
     {
         HealthRatio = (float)((float)CurHP / (float)MaxHP);
-    }
-    /// <summary>
-    /// 更新心智健康率
-    /// </summary>
-    protected void UpdateMindRatio()
-    {
-        MindRatio = (float)((float)CurMind / (float)MaxMind);
     }
     /// <summary>
     /// 檢查是否還存活
@@ -118,6 +125,16 @@ public abstract partial class Chara : MonoBehaviour
         //如果腳色死亡，時間則不再流逝(不會觸發狀態，也不會進行施法)
         if (!IsAlive)
             return;
+        //狀態觸發判定
+        BufferCheck();
+        //施法判定
+        SpellCheck();
+    }
+    /// <summary>
+    /// 狀態觸發判定
+    /// </summary>
+    protected virtual void BufferCheck()
+    {
         //觸發狀態
         List<int> bufferKeys = new List<int>(BufferDic.Keys);
         for (int i = 0; i < bufferKeys.Count; i++)
@@ -131,10 +148,16 @@ public abstract partial class Chara : MonoBehaviour
                     break;
             }
         }
+    }
+    /// <summary>
+    /// 施法判定
+    /// </summary>
+    protected virtual void SpellCheck()
+    {
         //施法
-        for (int i = 0; i < ActionList.Count; i++)
+        for (int i = 0; i < SpellList.Count; i++)
         {
-            ActionList[i].ExecuteCheck();
+            SpellList[i].ExecuteCheck();
         }
     }
 }

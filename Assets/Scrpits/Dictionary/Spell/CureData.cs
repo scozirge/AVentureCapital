@@ -9,6 +9,7 @@ public class CureData
     public int ID { get; private set; }
     public float Probability { get; private set; }
     public int BaseCure { get; private set; }
+    public int AbsoluteCure { get; private set; }
     /// <summary>
     /// 將字典傳入，依json表設定資料
     /// </summary>
@@ -32,6 +33,7 @@ public class CureData
             ID = int.Parse(item["ID"].ToString());
             Probability = float.Parse(item["Probability"].ToString());
             BaseCure = int.Parse(item["BaseCure"].ToString());
+            AbsoluteCure = int.Parse(item["AbsoluteCure"].ToString());
         }
         catch (Exception ex)
         {

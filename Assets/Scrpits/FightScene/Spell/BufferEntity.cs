@@ -17,17 +17,16 @@ public class BufferEntity : MonoBehaviour
     /// <summary>
     /// 設定Buffer實體
     /// </summary>
-    public void IniBuffer(Buffer _buffer,Chara _self)
+    public void IniBuffer(Buffer _buffer, Chara _self)
     {
         gameObject.name = _buffer.SpellName;
         Self = _self;
         RelyBuffer = _buffer;
         RemainTime = RelyBuffer.Duration;
-        //如果剩餘的觸發時間等於0，才執行重置剩餘時間，避免此狀態快觸發效果時因為又被賦予此狀態而又重置觸發效果時間
-        if (RemainTriggerTime==0)
-            RemainTriggerTime = RelyBuffer.Circle;
+        //不執行重置剩餘時間，避免此狀態快觸發效果時因為又被賦予此狀態而又重置觸發效果時間
+        //RemainTriggerTime = RelyBuffer.Circle;            
         //判斷此狀態是否擁有觸發效果
-        if (_buffer.Circle >= 0.1f && (_buffer.TriggerDamage != null || _buffer.TriggerCure != null))
+        if (_buffer.Circle >= 0.1f && (_buffer.TriggerExecuteList != null && _buffer.TriggerExecuteList.Count != 0))
             IsTriggerBuffer = true;
         //如果可以擁有觸發效果
         if (IsTriggerBuffer)
@@ -49,7 +48,7 @@ public class BufferEntity : MonoBehaviour
             if (IsTriggerBuffer)
             {
                 RemainTriggerTime -= TimeUnit;
-                if (RemainTriggerTime <= 0)
+                if (RemainTriggerTime <= 0)//剩餘觸發時間小於等於0則觸發
                     Trigger();
             }
             RemainTime -= TimeUnit;
@@ -61,23 +60,18 @@ public class BufferEntity : MonoBehaviour
             Debug.LogWarning(string.Format("{0}的{1}狀態被移除", Self.Name, RelyBuffer.SpellName));
         }
     }
-    //觸發效果
+
+    /// <summary>
+    /// 觸發效果
+    /// </summary>
     public void Trigger()
     {
-        Debug.Log("觸發狀態引發的效果(傷害/治癒)");
-        //觸發傷害
-        if (RelyBuffer.TriggerDamage != null)
-            RelyBuffer.TriggerDamage.Execute(Self);
-        //觸發治癒
-        if (RelyBuffer.TriggerCure != null)
-            RelyBuffer.TriggerCure.Execute();
-        //重設觸發剩餘時間
-        RemainTriggerTime += RelyBuffer.Circle;
-        if (RemainTriggerTime <= 0)
+        //執行觸發效果
+        for (int i = 0; i < RelyBuffer.TriggerExecuteList.Count; i++)
         {
-            Debug.LogWarning("效果觸發週期小於最小單位時間");
-            RemainTriggerTime = RelyBuffer.Circle;
+            RelyBuffer.TriggerExecuteList[i].Execute(Self);
         }
-
+        //重設觸發剩餘時間
+        RemainTriggerTime = RelyBuffer.Circle;
     }
 }

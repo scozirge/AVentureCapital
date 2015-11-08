@@ -5,9 +5,6 @@ using System.Collections.Generic;
 
 public class Buffer : ExecuteCom
 {
-    //BufferID，腳色如果中了同樣的BufferID的Buffer，會判斷是否為可疊加的Buffer，不可疊加的Buffer會重置持續時間，並取代掉舊的Buffer，
-    //而可疊加的Buffer會重複獲得新Buffer且不會影響到舊的Buffer
-    public int ID { get; protected set; }
     //效果類型
     public BufferType TheBufferType { get; protected set; }
     //是否為正面狀態
@@ -18,49 +15,99 @@ public class Buffer : ExecuteCom
     public float Probability { get; protected set; }
     //持續時間
     public float Duration { get; set; }
-    //此狀態持續時，每經過一段執行時間會造成的傷害效果
-    public BufferDamage TriggerDamage { get; protected set; }
-    //此狀態持續時，每經過一段時間會造成的治癒效果
-    public BufferCure TriggerCure { get; protected set; }
+    //此狀態持續時，每經過一段執行時間會造成的效果清單
+    public List<ExecuteCom> TriggerExecuteList;
     //觸發週期時間
     public float Circle { get; set; }
     //得到狀態時，是否起始就會觸發Damge & Cure
     public bool IniTrigger { get; protected set; }
     //是否為可疊加效果
+    //腳色如果中了同樣的BufferID的Buffer，會判斷是否為可疊加的Buffer，不可疊加的Buffer會重置持續時間，並取代掉舊的Buffer，
+    //而可疊加的Buffer會重複獲得新Buffer且不會影響到舊的Buffer
     public bool Stackable { get; protected set; }
     //最高疊加層數
     public int MaxStack { get; protected set; }
-    //增加的攻擊加值
-    public int AttackVlaue { get; protected set; }
-    //增加的攻擊乘值
-    public float AttackRate { get; protected set; }
-    //增加的防禦加值
-    public int DefenseVlaue { get; protected set; }
-    //增加的防禦乘值
-    public float DefenseRate { get; protected set; }
-    //此執行效果提供的貢獻率
-    public float ContributionRate { get; protected set; }
-
-    public Buffer(string _actionName, ExecuteType _type, Chara _self, Dictionary<string, string> _attrDic)
-        : base(_actionName, _type, _self)
+    //物攻加值
+    public int PAttack { get; private set; }
+    //物傷乘值
+    public float PLethalityRate { get; private set; }
+    //魔攻加值
+    public int MAttack { get; private set; }
+    //魔傷乘值
+    public float MLethalityRate { get; private set; }
+    //物防加值
+    public int PDefense { get; private set; }
+    //物抗乘值
+    public float PResistenceRate { get; private set; }
+    //魔防加值
+    public int MDefense { get; private set; }
+    //魔抗乘值
+    public float MResistenceRate { get; private set; }
+    /// <summary>
+    /// 初始化施法狀態效果
+    /// </summary>
+    public Buffer(int _bufferID, string _spellName, ExecuteType _type, Chara _self)
+        : base(_bufferID, _spellName, _type, _self)
     {
-        ID = int.Parse(_attrDic["BufferID"]);
-        TheBufferType = (BufferType)Enum.Parse(typeof(BufferType), _attrDic["Type"], false);
-        IsBuff = bool.Parse((_attrDic["IsBuff"]));
-        IsDeBuff = bool.Parse((_attrDic["IsDeBuff"]));
-        Probability = float.Parse(_attrDic["Probability"]);
-        Duration = float.Parse(_attrDic["Duration"]);
-        //TriggerDamage
-        //TriggerCure
-        Circle = float.Parse(_attrDic["Circle"]);
-        IniTrigger = bool.Parse((_attrDic["IniTrigger"]));
-        Stackable = bool.Parse((_attrDic["Stackable"]));
-        MaxStack = int.Parse(_attrDic["MaxStack"]);
-        AttackVlaue = int.Parse(_attrDic["BufferAttackValue"]);
-        AttackRate = float.Parse(_attrDic["BufferAttackRate"]);
-        DefenseVlaue = int.Parse(_attrDic["BufferDefenseValue"]);
-        DefenseRate = float.Parse(_attrDic["BufferDefenseRate"]);
-        ContributionRate = float.Parse(_attrDic["ContributionRate"]);
+        TheBufferType = GameDictionary.BufferDic[ID].Type;
+        IsBuff = GameDictionary.BufferDic[ID].IsBuff;
+        IsDeBuff = GameDictionary.BufferDic[ID].IsDeBuff;
+        Probability = GameDictionary.BufferDic[ID].Probability;
+        Duration = GameDictionary.BufferDic[ID].Duration;
+        Circle = GameDictionary.BufferDic[ID].Circle;
+        IniTrigger = GameDictionary.BufferDic[ID].IniTrigger;
+        Stackable = GameDictionary.BufferDic[ID].Stackable;
+        MaxStack = GameDictionary.BufferDic[ID].MaxStack;
+        PAttack = GameDictionary.BufferDic[ID].PAttack;
+        PLethalityRate = GameDictionary.BufferDic[ID].PLethalityRate;
+        MAttack = GameDictionary.BufferDic[ID].MAttack;
+        MLethalityRate = GameDictionary.BufferDic[ID].MLethalityRate;
+        PDefense = GameDictionary.BufferDic[ID].PDefense;
+        PResistenceRate = GameDictionary.BufferDic[ID].PResistanceRate;
+        MDefense = GameDictionary.BufferDic[ID].MDefense;
+        MResistenceRate = GameDictionary.BufferDic[ID].MResistanceRate;
+        //初始化施法執行效果清單
+        InitExecute();
+    }
+    /// <summary>
+    /// 初始化施法執行效果清單
+    /// </summary>
+    void InitExecute()
+    {
+        TriggerExecuteList = new List<ExecuteCom>();
+        string executeListStr = GameDictionary.BufferDic[ID].TriggerExecute;
+        string[] executeStr = executeListStr.Split(',');
+        //以迴圈加入所有執行元件
+        for (int i = 0; i < executeStr.Length; i++)
+        {
+            string[] executeColumn = executeStr[i].Split(':');
+            //執行類型
+            string type = executeColumn[0];
+            //執行ID
+            int executeID = int.Parse(executeColumn[1]);
+            //如果執行ID為0則跳過此執行
+            if (executeID == 0)
+                continue;
+            //依照執行類型與執行ID加入執行的元件
+            switch (type)
+            {
+                case "D"://傷害效果
+                    BufferDamage damage = new BufferDamage(executeID, SpellName, ExecuteType.Damage, Self);
+                    TriggerExecuteList.Add(damage);
+                    break;
+                case "C"://治癒效果
+                    Cure cure = new Cure(executeID, SpellName, ExecuteType.Damage, Self);
+                    TriggerExecuteList.Add(cure);
+                    break;
+                case "B"://狀態效果
+                    Buffer buffer = new Buffer(executeID, SpellName, ExecuteType.Damage, Self);
+                    TriggerExecuteList.Add(buffer);
+                    break;
+                default:
+                    Debug.LogWarning(string.Format("BufferID:{0}的觸發效果類型{0)無法判定，必須為D、C、B", ID, type));
+                    break;
+            }
+        }
     }
     /// <summary>
     /// 用於腳色施法執行狀態時，傳入目標，對目標賦予此狀態
@@ -68,7 +115,7 @@ public class Buffer : ExecuteCom
     public override void Execute(Chara _target)
     {
         base.Execute(_target);
-        Debug.Log(string.Format("{0}施放{1}對{2}附加{3}{4}", Self.Name, SpellName, _target.Name, TheBufferType, Type));//ex:勇者施放砍殺對大惡魔附加流血狀態
+        Debug.Log(string.Format("{0}施放{1}對{2}附加{3}效果", Self.Name, SpellName, _target.Name, TheBufferType));//ex:勇者施放砍殺對大惡魔附加流血狀態
         _target.ReceiveBuffer(this);
     }
 }

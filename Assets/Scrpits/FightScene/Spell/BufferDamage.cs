@@ -2,13 +2,13 @@
 using System.Collections;
 
 public class BufferDamage : Damage
-{//為狀態引發的傷害(BufferDamage)，與施法執行的傷害(Damage)差別在於Damge是在施法執行時才決定目標，而BufferDamage是在狀態執行時就給予觸發的目標
+{//為狀態引發的傷害(BufferDamage)
 
     /// <summary>
     /// 初始化狀態的傷害觸發效果
     /// </summary>
-    public BufferDamage(string _actionName, ExecuteType _type, Chara _self, Chara _target, float _actionAttackRate)
-        : base(_actionName, _type, _self, _actionAttackRate)
+    public BufferDamage(int _damageID, string _actionName, ExecuteType _type, Chara _self)
+        : base(_damageID, _actionName, _type, _self)
     {
     }
     /// <summary>
@@ -19,6 +19,6 @@ public class BufferDamage : Damage
         //取得實際傷害量
         TrueDamage = GetDamage(_target);
         Debug.Log(string.Format("{0}受到{1}狀態影響，造成{2}點{3}", Self.Name, SpellName, TrueDamage, Type));//ex:大惡魔受到砍殺狀態影響，造成56點傷害
-        _target.ReceiveDamge(TrueDamage, false);
+        _target.ReceivePhysicalDamge(TrueDamage, false, HitTextType.DOT);
     }
 }

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Spell
 {
+    //施法編號
+    public int ID { get; private set; }
     //施法名稱
     public string Name { get; private set; }
     //施法時間
@@ -13,22 +15,64 @@ public class Spell
     //每次時間流逝的單位時間
     const float TimeUnit = 0.1f;
     //執行列表
-    public List<ExecuteCom> ExecuteList;
+    public List<ExecuteCom> TriggerTargetList;
     //自身
     public Chara Self;
     //是否為攻擊施法
     public bool IsAttack;
     /// <summary>
-    /// 設定施法內容
+    /// 初始化施法，傳入施法ID
     /// </summary>
-    public Spell(string _name, float _time, List<ExecuteCom> _executeList, Chara _self, bool _attack)
+    public Spell(int _spellID, Chara _self)
     {
-        Name = _name;
-        CD = _time;
+        ID = _spellID;
+        Name = GameDictionary.SpellDic[ID].Name;
+        CD = GameDictionary.SpellDic[ID].CD;
         CDTimer = CD;
-        ExecuteList = _executeList;
         Self = _self;
-        IsAttack = _attack;
+        IsAttack = GameDictionary.SpellDic[ID].IsAttack;
+        //初始化施法執行效果清單
+        InitExecute();
+    }
+    /// <summary>
+    /// 初始化施法執行效果清單
+    /// </summary>
+    void InitExecute()
+    {
+        TriggerTargetList = new List<ExecuteCom>();
+        string executeListStr = GameDictionary.SpellDic[ID].TriggerTarget;
+        string[] executeStr = executeListStr.Split(',');
+        //以迴圈加入所有執行元件
+        for (int i = 0; i < executeStr.Length; i++)
+        {
+            string[] executeColumn = executeStr[i].Split(':');
+            //執行類型
+            string type = executeColumn[0];
+            //執行ID
+            int executeID = int.Parse(executeColumn[1]);
+            //如果執行ID為0則跳過此執行
+            if (executeID == 0)
+                continue;
+            //依照執行類型與執行ID加入執行的元件
+            switch (type)
+            {
+                case "D"://傷害效果
+                    Damage damage = new Damage(executeID, Name, ExecuteType.Damage, Self);
+                    TriggerTargetList.Add(damage);
+                    break;
+                case "C"://治癒效果
+                    Cure cure = new Cure(executeID, Name, ExecuteType.Damage, Self);
+                    TriggerTargetList.Add(cure);
+                    break;
+                case "B"://狀態效果
+                    Buffer buffer = new Buffer(executeID, Name, ExecuteType.Damage, Self);
+                    TriggerTargetList.Add(buffer);
+                    break;
+                default:
+                    Debug.LogWarning(string.Format("施法ID:{0}的施法效果類型{0)無法判定，必須為D、C、B", ID, type));
+                    break;
+            }
+        }
     }
     /// <summary>
     /// 判斷CD是否到達可以進行此施法
@@ -74,9 +118,9 @@ public class Spell
             Self.PlayMotion(Motion.Support, 0);
         }
         //執行施法
-        for (int i = 0; i < ExecuteList.Count; i++)
+        for (int i = 0; i < TriggerTargetList.Count; i++)
         {
-            ExecuteList[i].Execute(CurTarget);
+            TriggerTargetList[i].Execute(CurTarget);
         }
     }
     /// <summary>

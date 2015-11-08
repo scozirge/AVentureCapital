@@ -8,9 +8,16 @@ public class DamageData
 {
     public int ID { get; private set; }
     public float Probability { get; private set; }
-    public int BaseDamage { get; private set; }
-    public float AttackRate { get; private set; }
-    public int AttackValue { get; private set; }
+    //物攻加值
+    public int PAttack { get; protected set; }
+    //物傷乘值
+    public float PLethalityRate { get; protected set; }
+    //魔攻加值
+    public int MAttack { get; protected set; }
+    //魔傷乘值
+    public float MLethalityRate { get; protected set; }
+    //絕對傷害
+    public int AbsoluteDamage { get; protected set; }
     /// <summary>
     /// 將字典傳入，依json表設定資料
     /// </summary>
@@ -33,9 +40,11 @@ public class DamageData
             JsonData item = _item;
             ID = int.Parse(item["ID"].ToString());
             Probability = float.Parse(item["Probability"].ToString());
-            BaseDamage = int.Parse(item["BaseDamage"].ToString());
-            AttackRate = float.Parse(item["AttackRate"].ToString());
-            AttackValue = int.Parse(item["AttackValue"].ToString());
+            PAttack = int.Parse(item["PAttack"].ToString());
+            PLethalityRate = float.Parse(item["PLethalityRate"].ToString());
+            MAttack = int.Parse(item["MAttack"].ToString());
+            MLethalityRate = float.Parse(item["MLethalityRate"].ToString());
+            AbsoluteDamage = int.Parse(item["AbsoluteDamage"].ToString());
         }
         catch (Exception ex)
         {

@@ -9,8 +9,9 @@ public class SpellData
     public int ID { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
+    public float CD { get; private set; }
     public bool IsAttack { get; private set; }
-    public string TriggerExecute { get; private set; }
+    public string TriggerTarget { get; private set; }
     /// <summary>
     /// 將字典傳入，依json表設定資料
     /// </summary>
@@ -34,8 +35,9 @@ public class SpellData
             ID = int.Parse(item["ID"].ToString());
             Name = item["Name"].ToString();
             Description = item["Description"].ToString();
+            CD = float.Parse(item["CD"].ToString());
             IsAttack = bool.Parse(item["IsAttack"].ToString());
-            TriggerExecute = item["TriggerExecute"].ToString();
+            TriggerTarget = item["TriggerTarget"].ToString();
         }
         catch (Exception ex)
         {

@@ -33,7 +33,7 @@ public class CharaDataUI : MonoBehaviour
             return;
         for (int i = 0; i < 3; i++)
         {
-            CharaUIs[i].UpdateData();
+            CharaUIs[i].UpdateHealth();
         }
     }
     /// <summary>
@@ -43,16 +43,25 @@ public class CharaDataUI : MonoBehaviour
     {
         if (!IsInit)
             return;
-        CharaUIs[_index].UpdateData();
+        CharaUIs[_index].UpdateHealth();
     }
     /// <summary>
     /// 腳色被攻擊，傳入腳色排序索引編號
     /// </summary>
-    public static void Hit(int _index)
+    public static void ShowDamageAni(int _index)
     {
         if (!IsInit)
             return;
-        CharaUIs[_index].Hit();
+        CharaUIs[_index].ShowDamageAni();
+    }
+    /// <summary>
+    /// 顯示腳色被治癒血量動畫，傳入腳色排序索引編號
+    /// </summary>
+    public static void ShowHealingHealthAni(int _index)
+    {
+        if (!IsInit)
+            return;
+        CharaUIs[_index].ShowHealingHealthAni();
     }
     /// <summary>
     /// 腳色死亡，傳入腳色排序索引編號
