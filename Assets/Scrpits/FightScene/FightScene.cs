@@ -4,10 +4,9 @@ using System.Collections.Generic;
 public partial class FightScene : MonoBehaviour
 {
     static FightScene FS;
+    static FPSController MyFPSController;
     static Transform MyTransform;
     ////////////////////冒險/////////////////////
-    //是否開始戰鬥
-    static bool Fight;
     //是否開始冒險
     static bool Adventure;
     //PlayerChara
@@ -77,6 +76,10 @@ public partial class FightScene : MonoBehaviour
         GameObject prefab_FightScene = Resources.Load<GameObject>("GameObjects/FightScene/UI/FightSceneUI");
         GameObject go_FightScene = Instantiate(prefab_FightScene, Vector2.zero, Quaternion.identity) as GameObject;
         go_FightScene.GetComponent<FightSceneUI>().Init();//初始化
+        //產生FPSController並初始化
+        GameObject prefab_FPSController = Resources.Load<GameObject>("GameObjects/Common/FPSController");
+        GameObject go_FPS = Instantiate(prefab_FPSController, Vector2.zero, Quaternion.identity) as GameObject;
+        go_FPS.GetComponent<FPSController>().Init();//初始化
     }
     /// <summary>
     /// 起始設定
@@ -90,37 +93,13 @@ public partial class FightScene : MonoBehaviour
         PCharaList[1].IniChara(1, GameDictionary.TmpChara2Dic);
         PCharaList[2].IniChara(2, GameDictionary.TmpChara3Dic);
         //Enemy
-        ECharaList[0].IniChara(0, GameDictionary.TmpEnemyDic);
-        ECharaList[1].IniChara(1, GameDictionary.TmpEnemyDic);
-        ECharaList[2].IniChara(2, GameDictionary.TmpEnemyDic);
+        ECharaList[0].IniChara(0, GameDictionary.TmpEnemy1Dic);
+        ECharaList[1].IniChara(1, GameDictionary.TmpEnemy2Dic);
+        ECharaList[2].IniChara(2, GameDictionary.TmpEnemy3Dic);
         //Timer
         SetTimer();
         //場景
         SetScene();
-    }
-    void Update()
-    {
-        //StartFight=true時才啟動戰鬥計時器
-        if (Fight)
-        {
-            //檢查一單位時間是否到了，時間到就呼叫所有腳色的TimePass
-            if (CheckFightTimeUnit())
-            {
-                //Debug.LogWarning("////////////玩家動作///////////");
-                for (int i = 0; i < PCharaList.Count; i++)
-                {
-                    PCharaList[i].TimePass();
-                }
-                //Debug.LogWarning("////////////敵方動作///////////");
-                for (int i = 0; i < ECharaList.Count; i++)
-                {
-                    ECharaList[i].TimePass();
-                }
-            }
-        }
-        //StartAdventrue=true時才啟動冒險計時器
-        if (Adventure)
-            CheckAdventureTimeUnit();
     }
     /// <summary>
     /// 玩家腳色播放動作，傳入動作類型與是否錯開播放

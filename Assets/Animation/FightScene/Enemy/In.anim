@@ -20,19 +20,19 @@ AnimationClip:
         value: {x: 4, y: 0, z: 0}
         inSlope: {x: -8, y: 0, z: 0}
         outSlope: {x: -8, y: 0, z: 0}
-        tangentMode: 111273656
+        tangentMode: 0
       - time: .5
         value: {x: 0, y: 0, z: 0}
         inSlope: {x: -8, y: 0, z: 0}
         outSlope: {x: -8, y: 0, z: 0}
-        tangentMode: 105853840
+        tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
     path: 
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves: []
-  m_SampleRate: 60
+  m_SampleRate: 24
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}

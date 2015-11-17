@@ -34,16 +34,38 @@ public class CharaDataUI : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             CharaUIs[i].UpdateHealth();
+            CharaUIs[i].UpdateVitality();
         }
     }
     /// <summary>
-    /// 更新腳色介面，傳入腳色排序索引編號
+    /// 更新腳色施法CD，傳入腳色排序索引編號
     /// </summary>
-    public static void UpdateData(int _index)
+    public static void UpdateSpellCD(int _index)
+    {
+        if (!IsInit)
+            return;
+        for (int i = 0; i < CharaUIs[_index].SpellUIs.Length; i++)
+        {
+            CharaUIs[_index].SpellUIs[i].UpdateCDCover();
+        }
+    }
+    /// <summary>
+    /// 更新腳色血量，傳入腳色排序索引編號
+    /// </summary>
+    public static void UpdateHealth(int _index)
     {
         if (!IsInit)
             return;
         CharaUIs[_index].UpdateHealth();
+    }
+    /// <summary>
+    /// 更新腳色精神，傳入腳色排序索引編號
+    /// </summary>
+    public static void UpdateVitality(int _index)
+    {
+        if (!IsInit)
+            return;
+        CharaUIs[_index].UpdateVitality();
     }
     /// <summary>
     /// 腳色被攻擊，傳入腳色排序索引編號

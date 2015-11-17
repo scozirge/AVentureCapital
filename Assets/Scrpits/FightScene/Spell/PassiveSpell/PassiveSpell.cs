@@ -2,18 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Spell
+public class PassiveSpell
 {
     //施法編號
-    public int ID { get; private set; }
+    public int ID { get; protected set; }
     //施法名稱
-    public string Name { get; private set; }
+    public string Name { get; protected set; }
     //施法時間
-    public float CD { get; private set; }
+    public float CD { get; protected set; }
     //執行施法剩餘時間
-    public float CDTimer { get; private set; }
+    public float CDTimer { get; protected set; }
     //每次時間流逝的單位時間
-    const float TimeUnit = 0.1f;
+    protected const float TimeUnit = 0.1f;
     //執行列表
     public List<ExecuteCom> TriggerTargetList;
     //自身
@@ -23,24 +23,32 @@ public class Spell
     /// <summary>
     /// 初始化施法，傳入施法ID
     /// </summary>
-    public Spell(int _spellID, Chara _self)
+    public PassiveSpell(int _spellID, Chara _self)
     {
         ID = _spellID;
+        Self = _self;
+        InitSpellData();
+    }
+    /// <summary>
+    /// 初始化施法資料
+    /// </summary>
+    protected virtual void InitSpellData()
+    {
         Name = GameDictionary.SpellDic[ID].Name;
         CD = GameDictionary.SpellDic[ID].CD;
         CDTimer = CD;
-        Self = _self;
         IsAttack = GameDictionary.SpellDic[ID].IsAttack;
         //初始化施法執行效果清單
-        InitExecute();
+        string executeListStr = GameDictionary.SpellDic[ID].TriggerTarget;
+        InitExecute(executeListStr);
     }
     /// <summary>
     /// 初始化施法執行效果清單
     /// </summary>
-    void InitExecute()
+    protected virtual void InitExecute(string _executeListStr)
     {
         TriggerTargetList = new List<ExecuteCom>();
-        string executeListStr = GameDictionary.SpellDic[ID].TriggerTarget;
+        string executeListStr = _executeListStr;
         string[] executeStr = executeListStr.Split(',');
         //以迴圈加入所有執行元件
         for (int i = 0; i < executeStr.Length; i++)
@@ -80,23 +88,27 @@ public class Spell
     public bool ExecuteCheck()
     {
         bool execute = false;
-        if (CDTimer > 0)
-        {
-            CDTimer -= TimeUnit;
-        }
-        else
-        {
+        if ((CDTimer - TimeUnit) <= 0)
             execute = true;
-            CDTimer = CD;
+        return execute;
+    }
+    /// <summary>
+    /// 施法CD時間流逝
+    /// </summary>
+    public virtual void TimePass()
+    {
+        CDTimer -= TimeUnit;
+        if (CDTimer <= 0)
+        {
             Execute();
         }
-        return execute;
     }
     /// <summary>
     /// 執行施法
     /// </summary>
-    void Execute()
+    public virtual void Execute()
     {
+        CDTimer = CD;
         //此施法的暫時目標
         Chara CurTarget = SelectTarget();
         //如果沒有可做為目標的腳色，取消執行施法
@@ -105,6 +117,9 @@ public class Spell
             Debug.Log("無可做為目標的腳色，取消執行施法");
             return;
         }
+        //設定腳色施法位置與縮放
+        Self.SetSpellTransfrom(CurTarget.AbsIndex, CurTarget.Index);
+        //設定腳色師法動作
         if (IsAttack)
         {
             //播放攻擊動作

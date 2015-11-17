@@ -7,10 +7,11 @@ public abstract partial class Chara : MonoBehaviour
     /// <summary>
     /// 起始設定
     /// </summary>
-    public virtual void IniChara(int _index, Dictionary<string, string> _attrsDic)
+    public virtual void IniChara(byte _index, Dictionary<string, string> _attrsDic)
     {
         AttrsDic = _attrsDic;
         MyTransform = transform;
+        ID = int.Parse(AttrsDic["ID"]);
         Name = AttrsDic["Name"];
         Index = _index;
         //狀態
@@ -29,29 +30,17 @@ public abstract partial class Chara : MonoBehaviour
         EquipAttack = int.Parse(AttrsDic["EquipAttack"]);
         BufferAttackVlue = 0;
         BufferAttackRate = 1;
+        //其他
+        LiftPower = int.Parse(AttrsDic["LiftPower"]);
+        Weight = int.Parse(AttrsDic["Weight"]);
+        //更新負重百分比
+        UpdateWeightRatio();
         //初始化Buffer
         IniBuffer();
         //初始化動作
         IniMotion();
         //初始化施法列表
         InitSpell();
-    }
-    /// <summary>
-    /// 初始化技能
-    /// </summary>
-    protected virtual void InitSpell()
-    {
-        SpellList = new List<Spell>();
-        string spellListStr = AttrsDic["SpellList"];
-        string[] spellIDStr = spellListStr.Split(',');
-        for (int i = 0; i < spellIDStr.Length;i++ )
-        {
-            int spellID = int.Parse(spellIDStr[i]);
-            if (spellID == 0)
-                continue;
-            Spell spell = new Spell(spellID, this);
-            SpellList.Add(spell);
-        }
     }
     /// <summary>
     /// 對角色造成物理傷害，傳入[造成的傷害][是否在ICON顯示效果動畫]
@@ -71,7 +60,7 @@ public abstract partial class Chara : MonoBehaviour
         HitTextController.ShowHitText(this, _damage, _hitTextType);
         UpdateHealthRatio();
         //更新腳色介面
-        CharaDataUI.UpdateData(Index);
+        CharaDataUI.UpdateHealth(Index);
         //檢查是否存活
         AliveCheck();
     }
@@ -93,7 +82,7 @@ public abstract partial class Chara : MonoBehaviour
         UpdateHealthRatio();
         HitTextController.ShowHitText(this, _cure, _hitTextType);
         //更新腳色介面
-        CharaDataUI.UpdateData(Index);
+        CharaDataUI.UpdateHealth(Index);
     }
     /// <summary>
     /// 更新血量健康率
@@ -101,6 +90,13 @@ public abstract partial class Chara : MonoBehaviour
     protected void UpdateHealthRatio()
     {
         HealthRatio = (float)((float)CurHP / (float)MaxHP);
+    }
+    /// <summary>
+    /// 更新負重百分比
+    /// </summary>
+    protected virtual void UpdateWeightRatio()
+    {
+        WeightRatio = (float)Weight / (float)LiftPower;
     }
     /// <summary>
     /// 檢查是否還存活
@@ -114,50 +110,6 @@ public abstract partial class Chara : MonoBehaviour
             IsAlive = false;
             PlayMotion(Motion.Die, 0);
             FightScene.CheckAliveChara();//更新死亡腳色清單
-        }
-    }
-    /// <summary>
-    /// 1.時間流逝，代表此腳色有時間元素的屬性都要計算經過時間，例如施法執行、狀態效果的時間
-    /// 2.會先觸發狀態效果再進行施法判定
-    /// </summary>
-    public virtual void TimePass()
-    {
-        //如果腳色死亡，時間則不再流逝(不會觸發狀態，也不會進行施法)
-        if (!IsAlive)
-            return;
-        //狀態觸發判定
-        BufferCheck();
-        //施法判定
-        SpellCheck();
-    }
-    /// <summary>
-    /// 狀態觸發判定
-    /// </summary>
-    protected virtual void BufferCheck()
-    {
-        //觸發狀態
-        List<int> bufferKeys = new List<int>(BufferDic.Keys);
-        for (int i = 0; i < bufferKeys.Count; i++)
-        {
-            for (int j = 0; j < BufferDic[bufferKeys[i]].Count; j++)
-            {
-                BufferDic[bufferKeys[i]][j].ExecuteCheck();
-                //如果在執行ExecuteCheck後發現BufferDic已經不存在ID，代表此狀態在ExecuteCheck中判定時效已過而遭刪除
-                //跳出迴圈
-                if (!BufferDic.ContainsKey(bufferKeys[i]))
-                    break;
-            }
-        }
-    }
-    /// <summary>
-    /// 施法判定
-    /// </summary>
-    protected virtual void SpellCheck()
-    {
-        //施法
-        for (int i = 0; i < SpellList.Count; i++)
-        {
-            SpellList[i].ExecuteCheck();
         }
     }
 }

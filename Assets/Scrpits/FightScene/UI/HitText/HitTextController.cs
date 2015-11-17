@@ -16,6 +16,11 @@ public class HitTextController : MonoBehaviour
         MyTransform = transform;
         HitTextList = new List<HitText>();
         Prefab_HitText = Resources.Load<GameObject>("GameObjects/FightScene/UI/HitText");
+        //初始化時先產生10個擊中文字物件
+        for (int i = 0; i < 20;i++ )
+        {
+            SpawnHitText();
+        }
         Isinit = true;
     }
     /// <summary>

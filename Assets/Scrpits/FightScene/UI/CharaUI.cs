@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class CharaUI : MonoBehaviour
 {
     bool IsInit;
+    PlayerChara MyChara;
     //腳色排序索引
     public int Index { get; private set; }
     //圖像&物件
@@ -13,24 +14,28 @@ public class CharaUI : MonoBehaviour
     Animator Ani_IconCover;
     Animator Ani_Hit;
     Scrollbar SB_Health;
-    Image[] SpellCovers;
+    Scrollbar SB_Vitality;
+    public SpellUI[] SpellUIs;
     /// <summary>
     /// 初始化
     /// </summary>
     public void Init(int _index)
     {
         Index = _index;
+        MyChara = FightScene.PCharaList[Index];
         //抓取圖像&物件
         Ani_Icon = transform.FindChild("IconMask").FindChild("icon").GetComponent<Animator>();
         Image_Icon = Ani_Icon.transform.GetComponent<Image>();
         Ani_Hit = transform.FindChild("hit").GetComponent<Animator>();
         Ani_IconCover = transform.FindChild("iconCover").GetComponent<Animator>();
         SB_Health = transform.FindChild("Health").GetComponent<Scrollbar>();
-        //Spell
-        SpellCovers = new Image[2];
-        for (int i = 0; i < 2; i++)
+        SB_Vitality = transform.FindChild("Vitality").GetComponent<Scrollbar>();
+        //抓取SpellUI
+        SpellUIs = new SpellUI[MyChara.ActivitySpellList.Count];
+        for (int i = 0; i < SpellUIs.Length; i++)
         {
-            SpellCovers[i] = transform.FindChild(string.Format("Spell{0}", i)).FindChild("cover").GetComponent<Image>();
+            SpellUIs[i] = transform.FindChild(string.Format("Spell{0}", i)).GetComponent<SpellUI>();
+            SpellUIs[i].Init(MyChara.ActivitySpellList[i]);
         }
         IsInit = true;
     }
@@ -92,13 +97,28 @@ public class CharaUI : MonoBehaviour
             Debug.LogWarning("CharaUI尚未初始化就被呼叫");
             return;
         }
-        SB_Health.size = FightScene.PCharaList[Index].HealthRatio;
+        SB_Health.size = MyChara.HealthRatio;
+    }
+    /// <summary>
+    /// 更新腳色精神
+    /// </summary>
+    public void UpdateVitality()
+    {
+        if (!IsInit)
+        {
+            Debug.LogWarning("CharaUI尚未初始化就被呼叫");
+            return;
+        }
+        SB_Vitality.size = MyChara.VitalityRatio;
     }
     /// <summary>
     /// 更新腳色技能CD
     /// </summary>
     public void UpdateSpellCD()
     {
-        //SpellCovers[0].fillAmount=
+        for (int i = 0; i < SpellUIs.Length; i++)
+        {
+            SpellUIs[i].UpdateCDCover();
+        }
     }
 }

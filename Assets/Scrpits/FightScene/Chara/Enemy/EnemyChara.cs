@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-public class EnemyChara : Chara
+public partial class EnemyChara : Chara
 {
     /// <summary>
     /// 起始設定
     /// </summary>
-    public override void IniChara(int _index, Dictionary<string, string> _attrDic)
+    public override void IniChara(byte _index, Dictionary<string, string> _attrDic)
     {
         base.IniChara(_index, _attrDic);
         /*
@@ -18,6 +18,7 @@ public class EnemyChara : Chara
         Spell ac = new Spell("砍殺", rnd, executeList, this, true);
         SpellList.Add(ac);     
         */
+        AbsIndex = (byte)(_index + 3);
         TheCharaType = CharaType.Enemy;
     }
 }
