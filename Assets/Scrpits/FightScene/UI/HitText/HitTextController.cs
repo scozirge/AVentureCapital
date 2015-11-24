@@ -26,13 +26,13 @@ public class HitTextController : MonoBehaviour
     /// <summary>
     /// 顯示擊中文字，傳入[數字][擊中類型]
     /// </summary>
-    public static void ShowHitText(Chara _cahra, int _value, HitTextType _type)
+    public static void ShowHitText(Chara _cahra, int _value, HitTextType _type, float _showDelay)
     {
         if (!Isinit)
             return;
         if (HitTextList.Count == 0)
         {
-            SpawnHitText().Show(_cahra, _value, _type);
+            SpawnHitText().Show(_cahra, _value, _type, _showDelay);
         }
         else
         {
@@ -41,14 +41,14 @@ public class HitTextController : MonoBehaviour
             {
                 if (!HitTextList[i].IsShowing)
                 {
-                    HitTextList[i].Show(_cahra, _value, _type);
+                    HitTextList[i].Show(_cahra, _value, _type, _showDelay);
                     isShowed = true;
                     break;
                 }
             }
             if (!isShowed)//isShowed為false代表目前的文字物件都在播放，創造新的文字物件並播放
             {
-                SpawnHitText().Show(_cahra, _value, _type);
+                SpawnHitText().Show(_cahra, _value, _type, _showDelay);
             }
         }
     }

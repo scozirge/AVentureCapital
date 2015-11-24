@@ -4,24 +4,25 @@ using System.Collections.Generic;
 
 public abstract partial class Chara : MonoBehaviour
 {
-    /// <summary>
-    /// 初始化施法
-    /// </summary>
-    protected virtual void InitSpell()
-    {
-        SpellList = new List<PassiveSpell>();
-        string spellListStr = AttrsDic["SpellList"];
-        string[] spellIDStr = spellListStr.Split(',');
-        for (int i = 0; i < spellIDStr.Length; i++)
-        {
-            int spellID = int.Parse(spellIDStr[i]);
-            if (spellID == 0)
-                continue;
-            PassiveSpell spell = new PassiveSpell(spellID, this);
-            SpellList.Add(spell);
-        }
-    }
-
+    /*
+/// <summary>
+/// 初始化施法
+/// </summary>
+protected virtual void InitSpell()
+{
+PassiveSpellList = new List<PassiveSpell>();
+string spellListStr = AttrsDic["SpellList"];
+string[] spellIDStr = spellListStr.Split(',');
+for (int i = 0; i < spellIDStr.Length; i++)
+{
+    int spellID = int.Parse(spellIDStr[i]);
+    if (spellID == 0)
+        continue;
+    PassiveSpell spell = new PassiveSpell(spellID, this);
+    PassiveSpellList.Add(spell);
+}
+}
+     */
     /// <summary>
     /// 腳色狀態時間流逝，代表此腳色有時間元素的屬性都要計算經過時間，例如狀態效果的時間
     /// </summary>
@@ -53,9 +54,9 @@ public abstract partial class Chara : MonoBehaviour
         if (!IsAlive)
             return false;
         //施法
-        for (int i = 0; i < SpellList.Count; i++)
+        for (int i = 0; i < PassiveSpellList.Count; i++)
         {
-            if (SpellList[i].ExecuteCheck())//如果有要施法的清單就返回true
+            if (PassiveSpellList[i].ExecuteCheck())//如果有要施法的清單就返回true
                 return true;
         }
         return false;//如果沒要施法的清單就返回false
@@ -74,17 +75,17 @@ public abstract partial class Chara : MonoBehaviour
             return mutiSpell;
 
         //計算要施法的次數
-        for (int i = 0; i < SpellList.Count; i++)
+        for (int i = 0; i < PassiveSpellList.Count; i++)
         {
-            if (!SpellList[i].ExecuteCheck())
+            if (!PassiveSpellList[i].ExecuteCheck())
             {
-                SpellList[i].TimePass();
+                PassiveSpellList[i].TimePass();
             }
             else
             {
                 //只執行一次施法，如果有一次以上的施法要執行就先保留，等待下一次再執行
                 if (readySpellCount == 0)
-                    SpellList[i].TimePass();
+                    PassiveSpellList[i].TimePass();
                 readySpellCount++;
             }
         }

@@ -10,11 +10,12 @@ public class HitText : MonoBehaviour
     Chara Target;
     //文字物件
     GameObject MyGameobject;
+    GameObject Go_Motion;
     RectTransform CanvasRect;
     RectTransform MyTransfrom;
     Text MyText;
     Image MyImage;
-    RectTransform RT_Imabe;
+    RectTransform RT_Image;
     Animator Ani;
     //參數
     bool IsInit;
@@ -27,22 +28,26 @@ public class HitText : MonoBehaviour
     /// </summary>
     public void Init()
     {
-        IsInit = true;
         MyGameobject = gameObject;
         MyTransfrom = transform.GetComponent<RectTransform>();
+        Go_Motion = MyTransfrom.FindChild("Motion").gameObject;
         MyTransfrom.FindChild("Motion").GetComponent<HitTextMotion>().Init(this);
         CanvasRect = FightSceneUI.Canvas;
         MyText = MyTransfrom.FindChild("Motion").FindChild("text").GetComponent<Text>();
         MyImage = MyTransfrom.FindChild("Motion").FindChild("image").GetComponent<Image>();
+        RT_Image = MyImage.GetComponent<RectTransform>();
         Ani = MyTransfrom.FindChild("Motion").GetComponent<Animator>();
         ImagePosUp = new Vector2(0, 40);
         ImagePosCenter = new Vector2(0, 0);
+        IsInit = true;
     }
     /// <summary>
     /// 依照類型設定擊中文字各項屬性
     /// </summary>
     void SetType()
     {
+        if (!IsInit)
+            return;
         switch (Type)
         {
             case HitTextType.CriticalHit:
@@ -54,7 +59,7 @@ public class HitText : MonoBehaviour
                 MyImage.enabled = true;
                 MyImage.sprite = Resources.Load<Sprite>(string.Format("Sprites/UI/{0}", Type.ToString()));
                 MyImage.SetNativeSize();
-                RT_Imabe.anchoredPosition = ImagePosUp;
+                RT_Image.anchoredPosition = ImagePosUp;
                 break;
             case HitTextType.Hit:
                 //文字
@@ -73,7 +78,7 @@ public class HitText : MonoBehaviour
                 MyImage.enabled = true;
                 MyImage.sprite = Resources.Load<Sprite>(string.Format("Sprites/UI/{0}", Type.ToString()));
                 MyImage.SetNativeSize();
-                RT_Imabe.anchoredPosition = ImagePosUp;
+                RT_Image.anchoredPosition = ImagePosUp;
                 break;
             case HitTextType.Dodge:
                 //文字
@@ -82,7 +87,7 @@ public class HitText : MonoBehaviour
                 MyImage.enabled = true;
                 MyImage.sprite = Resources.Load<Sprite>(string.Format("Sprites/UI/{0}", Type.ToString()));
                 MyImage.SetNativeSize();
-                RT_Imabe.anchoredPosition = ImagePosCenter;
+                RT_Image.anchoredPosition = ImagePosCenter;
                 break;
             case HitTextType.Cure:
                 //文字
@@ -109,6 +114,8 @@ public class HitText : MonoBehaviour
     /// </summary>
     void SetPos()
     {
+        if (!IsInit)
+            return;
         //then you calculate the position of the UI element
         //0,0 for the canvas is at the center of the screen, whereas WorldToViewPortPoint treats the lower left corner as 0,0. Because of this, you need to subtract the height / width of the canvas * 0.5 to get the correct position.
         Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(Target.transform.position);
@@ -124,18 +131,32 @@ public class HitText : MonoBehaviour
     /// </summary>
     void SetSize()
     {
+        if (!IsInit)
+            return;
         MyTransfrom.localScale = Vector3.one;
     }
     /// <summary>
-    /// 顯示傷害擊中文字，傳入[傷害數值][擊中類型]
+    /// 顯示傷害擊中文字，傳入[腳色][傷害數值][擊中類型][延遲顯示]
     /// </summary>
-    public void Show(Chara _target, int _value, HitTextType _type)
+    public void Show(Chara _target, int _value, HitTextType _type, float _showDelay)
     {
-        MyGameobject.SetActive(true);
+        if (!IsInit)
+            return;
         IsShowing = true;
         Type = _type;
         Target = _target;
         Value = _value;
+        MyGameobject.SetActive(true);//先啟動gameobject不然不能執行Coroutine
+        Go_Motion.SetActive(false);//先隱藏文字
+        StartCoroutine(ShowCoroutine(_showDelay));
+    }
+    /// <summary>
+    /// 播放文字
+    /// </summary>
+    IEnumerator ShowCoroutine(float _delayTime)
+    {
+        yield return new WaitForSeconds(_delayTime);
+        Go_Motion.SetActive(true);//顯示文字
         SetType();
         SetPos();
         SetSize();
@@ -145,6 +166,8 @@ public class HitText : MonoBehaviour
     /// </summary>
     public void EndShow()
     {
+        if (!IsInit)
+            return;
         IsShowing = false;
         MyGameobject.SetActive(false);
     }

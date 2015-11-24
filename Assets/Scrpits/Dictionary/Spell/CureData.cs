@@ -8,6 +8,8 @@ public class CureData
 {
     public int ID { get; private set; }
     public float Probability { get; private set; }
+    //延遲顯示扣血
+    public float ShowDelay { get; private set; }
     public int BaseCure { get; private set; }
     public int AbsoluteCure { get; private set; }
     /// <summary>
@@ -32,6 +34,7 @@ public class CureData
             JsonData item = _item;
             ID = int.Parse(item["ID"].ToString());
             Probability = float.Parse(item["Probability"].ToString());
+            ShowDelay = float.Parse(item["ShowDelay"].ToString());
             BaseCure = int.Parse(item["BaseCure"].ToString());
             AbsoluteCure = int.Parse(item["AbsoluteCure"].ToString());
         }

@@ -31,11 +31,11 @@ public class CharaUI : MonoBehaviour
         SB_Health = transform.FindChild("Health").GetComponent<Scrollbar>();
         SB_Vitality = transform.FindChild("Vitality").GetComponent<Scrollbar>();
         //抓取SpellUI
-        SpellUIs = new SpellUI[MyChara.ActivitySpellList.Count];
+        SpellUIs = new SpellUI[2];
         for (int i = 0; i < SpellUIs.Length; i++)
         {
             SpellUIs[i] = transform.FindChild(string.Format("Spell{0}", i)).GetComponent<SpellUI>();
-            SpellUIs[i].Init(MyChara.ActivitySpellList[i]);
+            SpellUIs[i].Init(MyChara.ActivitySpells[i]);
         }
         IsInit = true;
     }

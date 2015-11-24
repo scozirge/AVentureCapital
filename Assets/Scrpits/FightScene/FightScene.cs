@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 public partial class FightScene : MonoBehaviour
 {
-    static FightScene FS;
     static FPSController MyFPSController;
     static Transform MyTransform;
     ////////////////////冒險/////////////////////
@@ -23,7 +22,6 @@ public partial class FightScene : MonoBehaviour
     static AudioPlayer FAudio;
     void Start()
     {
-        FS = this;
         LoadObj();
         SetData();
         LoadUI();

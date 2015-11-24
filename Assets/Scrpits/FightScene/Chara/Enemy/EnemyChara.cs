@@ -20,5 +20,6 @@ public partial class EnemyChara : Chara
         */
         AbsIndex = (byte)(_index + 3);
         TheCharaType = CharaType.Enemy;
+        SetPassiveSpell();//設定敵人被動施法
     }
 }

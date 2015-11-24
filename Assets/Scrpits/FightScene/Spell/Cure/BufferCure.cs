@@ -14,6 +14,6 @@ public class BufferCure : Cure
     {
         TrueCure = GetCure();//取得實際治癒量
         Debug.Log(string.Format("{0}受到{1}狀態影響，造成{2}點{3}", Self.Name, SpellName, TrueCure, Type));//ex:勇者受到祝福狀態影響，造成56點治癒
-        _target.ReceiveCure(TrueCure, false, HitTextType.Cure);
+        _target.ReceiveCure(TrueCure, false, HitTextType.Cure, ShowDelay);
     }
 }

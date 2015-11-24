@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using LitJson;
 
-public class SpellData
+public class PassiveSpellData
 {
     public int ID { get; private set; }
     public string Name { get; private set; }
@@ -15,19 +15,19 @@ public class SpellData
     /// <summary>
     /// 將字典傳入，依json表設定資料
     /// </summary>
-    public static void SetData(Dictionary<int, SpellData> _dic)
+    public static void SetData(Dictionary<int, PassiveSpellData> _dic)
     {
-        string jsonStr = Resources.Load<TextAsset>("Json/Spell").ToString();
+        string jsonStr = Resources.Load<TextAsset>("Json/PassiveSpell").ToString();
         JsonData jd = JsonMapper.ToObject(jsonStr);
-        JsonData spellItems = jd["Spell"];
+        JsonData spellItems = jd["PassiveSpell"];
         for (int i = 0; i < spellItems.Count; i++)
         {
-            SpellData spellData = new SpellData(spellItems[i]);
+            PassiveSpellData spellData = new PassiveSpellData(spellItems[i]);
             int id = int.Parse(spellItems[i]["ID"].ToString());
             _dic.Add(id, spellData);
         }
     }
-    SpellData(JsonData _item)
+    PassiveSpellData(JsonData _item)
     {
         try
         {

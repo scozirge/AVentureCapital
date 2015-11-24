@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PassiveSpell
+public abstract class Spell
 {
     //施法編號
     public int ID { get; protected set; }
@@ -23,29 +23,15 @@ public class PassiveSpell
     /// <summary>
     /// 初始化施法，傳入施法ID
     /// </summary>
-    public PassiveSpell(int _spellID, Chara _self)
+    public Spell(int _spellID, Chara _self)
     {
         ID = _spellID;
         Self = _self;
-        InitSpellData();
-    }
-    /// <summary>
-    /// 初始化施法資料
-    /// </summary>
-    protected virtual void InitSpellData()
-    {
-        Name = GameDictionary.SpellDic[ID].Name;
-        CD = GameDictionary.SpellDic[ID].CD;
-        CDTimer = CD;
-        IsAttack = GameDictionary.SpellDic[ID].IsAttack;
-        //初始化施法執行效果清單
-        string executeListStr = GameDictionary.SpellDic[ID].TriggerTarget;
-        InitExecute(executeListStr);
     }
     /// <summary>
     /// 初始化施法執行效果清單
     /// </summary>
-    protected virtual void InitExecute(string _executeListStr)
+    protected void InitExecute(string _executeListStr)
     {
         TriggerTargetList = new List<ExecuteCom>();
         string executeListStr = _executeListStr;
@@ -98,10 +84,6 @@ public class PassiveSpell
     public virtual void TimePass()
     {
         CDTimer -= TimeUnit;
-        if (CDTimer <= 0)
-        {
-            Execute();
-        }
     }
     /// <summary>
     /// 執行施法

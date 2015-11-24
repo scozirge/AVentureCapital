@@ -3,12 +3,14 @@ using System.Collections;
 
 public class FightSceneUI : MonoBehaviour
 {
-    bool IsInit;
+    static bool IsInit;
     public static RectTransform Canvas;
     CharaDataUI MyCharaDataUI;
     HitTextController MyHitTextController;
     public void Init()
     {
+        if (IsInit)
+            return;
         Canvas = transform.GetComponent<RectTransform>();
         //腳色介面
         MyCharaDataUI = Canvas.FindChild("CharaData").GetComponent<CharaDataUI>();

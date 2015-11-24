@@ -14,13 +14,17 @@ public partial class PlayerChara : Chara
         MaxVP = int.Parse(AttrsDic["MaxVP"]);
         CurVP = int.Parse(AttrsDic["CurVP"]);
         UpdateVitalityRatio();
+        //初始化裝備
+        InitEquipment();
+        //初始化主動施法
+        InitActivitySpell();
     }
     /// <summary>
     /// 對角色造成物理傷害，傳入[造成的傷害][是否在ICON顯示效果動畫]
     /// </summary>
-    public override void ReceivePhysicalDamge(int _damage, bool _showIconAni, HitTextType _hitTextType)
+    public override void ReceivePhysicalDamge(int _damage, bool _showIconAni, HitTextType _hitTextType, float _showDelay)
     {
-        base.ReceivePhysicalDamge(_damage, _showIconAni, _hitTextType);
+        base.ReceivePhysicalDamge(_damage, _showIconAni, _hitTextType, _showDelay);
         //是否在Icon顯示腳色被擊中效果
         if (_showIconAni)
             CharaDataUI.ShowDamageAni(Index);
@@ -28,9 +32,9 @@ public partial class PlayerChara : Chara
     /// <summary>
     /// 對角色造成治癒，傳入[造成的治癒][是否在ICON顯示效果動畫]
     /// </summary>
-    public override void ReceiveCure(int _cure, bool _showIconAni, HitTextType _hitTextType)
+    public override void ReceiveCure(int _cure, bool _showIconAni, HitTextType _hitTextType, float _showDelay)
     {
-        base.ReceiveCure(_cure, _showIconAni, _hitTextType);
+        base.ReceiveCure(_cure, _showIconAni, _hitTextType, _showDelay);
         if (_showIconAni)
             CharaDataUI.ShowHealingHealthAni(Index);
     }

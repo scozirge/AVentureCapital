@@ -20,32 +20,32 @@ public abstract partial class Chara : MonoBehaviour
         UpdateHealthRatio();
         IsAlive = true;
         //防禦
-        BaseDefense = int.Parse(AttrsDic["BaseDefense"]);
-        EquipDefense = int.Parse(AttrsDic["EquipDefense"]);
-        BufferDefenseValue = 0;
-        BufferDefenseRate = 1;
-        EquipDefenseRate = float.Parse(AttrsDic["EquipDefenseRate"]);
+        PDefense = int.Parse(AttrsDic["BaseDefense"]);
+        BufferPDefense = 0;
+        BufferPResistanceRate = 1;
         //攻擊
-        BaseAttack = int.Parse(AttrsDic["BaseAttack"]);
-        EquipAttack = int.Parse(AttrsDic["EquipAttack"]);
-        BufferAttackVlue = 0;
-        BufferAttackRate = 1;
+        PAttack = int.Parse(AttrsDic["BaseAttack"]);
+        EquipPAttack = 0;
+        EquipPLethalityRate = 1;
+        BufferPAttack = 0;
+        BufferPLethalityRate = 1;
+        //被動施法
+        PassiveSpellList = new List<PassiveSpell>();
         //其他
         LiftPower = int.Parse(AttrsDic["LiftPower"]);
-        Weight = int.Parse(AttrsDic["Weight"]);
         //更新負重百分比
         UpdateWeightRatio();
         //初始化Buffer
         IniBuffer();
         //初始化動作
         IniMotion();
-        //初始化施法列表
-        InitSpell();
+        //初始化施法列表(施法現在改由裝備去初始化)
+        //InitSpell();
     }
     /// <summary>
     /// 對角色造成物理傷害，傳入[造成的傷害][是否在ICON顯示效果動畫]
     /// </summary>
-    public virtual void ReceivePhysicalDamge(int _damage, bool _showIconAni, HitTextType _hitTextType)
+    public virtual void ReceivePhysicalDamge(int _damage, bool _showIconAni, HitTextType _hitTextType, float _showDelay)
     {
         //不可對死者進行攻擊
         if (!IsAlive)
@@ -57,7 +57,7 @@ public abstract partial class Chara : MonoBehaviour
         if (CurHP - _damage < 0)
             _damage = CurHP;
         CurHP -= _damage;
-        HitTextController.ShowHitText(this, _damage, _hitTextType);
+        HitTextController.ShowHitText(this, _damage, _hitTextType, _showDelay);
         UpdateHealthRatio();
         //更新腳色介面
         CharaDataUI.UpdateHealth(Index);
@@ -67,7 +67,7 @@ public abstract partial class Chara : MonoBehaviour
     /// <summary>
     /// 對角色造成治癒，傳入[造成的治癒][是否在ICON顯示效果動畫]
     /// </summary>
-    public virtual void ReceiveCure(int _cure, bool _showIconAni, HitTextType _hitTextType)
+    public virtual void ReceiveCure(int _cure, bool _showIconAni, HitTextType _hitTextType, float _showDelay)
     {
         //不可對死者進行治癒
         if (!IsAlive)
@@ -80,7 +80,7 @@ public abstract partial class Chara : MonoBehaviour
             _cure = MaxHP - CurHP;
         CurHP += _cure;
         UpdateHealthRatio();
-        HitTextController.ShowHitText(this, _cure, _hitTextType);
+        HitTextController.ShowHitText(this, _cure, _hitTextType, _showDelay);
         //更新腳色介面
         CharaDataUI.UpdateHealth(Index);
     }

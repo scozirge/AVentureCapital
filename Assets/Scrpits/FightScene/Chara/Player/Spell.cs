@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 public partial class PlayerChara : Chara
 {
+    /*
     /// <summary>
     /// 初始化玩家施法
     /// </summary>
@@ -12,12 +13,13 @@ public partial class PlayerChara : Chara
         //初始化主動施法
         InitActivitySpell();
     }
+    */
     /// <summary>
     /// 初始化主動施法
     /// </summary>
     void InitActivitySpell()
     {
-        ActivitySpellList = new List<ActivitySpell>();
+        ActivitySpells = new ActivitySpell[2];
         string activitySpellListStr = AttrsDic["ActivitySpellList"];
         string[] spellIDStr = activitySpellListStr.Split(',');
         for (int i = 0; i < spellIDStr.Length; i++)
@@ -28,10 +30,9 @@ public partial class PlayerChara : Chara
                 break;
             }
             int spellID = int.Parse(spellIDStr[i]);
-            if (spellID == 0)
-                continue;
             ActivitySpell spell = new ActivitySpell(spellID, this);
-            ActivitySpellList.Add(spell);
+            ActivitySpells[i] = spell;
+            ASpellNum++;
         }
     }
     /// <summary>
@@ -43,9 +44,10 @@ public partial class PlayerChara : Chara
         if (!IsAlive)
             return;
         //計算要施法的次數
-        for (int i = 0; i < ActivitySpellList.Count; i++)
+        for (int i = 0; i < ActivitySpells.Length; i++)
         {
-            ActivitySpellList[i].TimePass();
+            if (ActivitySpells[i] != null)
+                ActivitySpells[i].TimePass();
         }
     }
 }

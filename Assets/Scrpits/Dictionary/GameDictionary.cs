@@ -43,8 +43,8 @@ public partial class GameDictionary
         TmpChara1Dic.Add("EquipDefenseRate", "1");
         TmpChara1Dic.Add("BaseAttack", "60");
         TmpChara1Dic.Add("EquipAttack", "50");
-        TmpChara1Dic.Add("SpellList", "11,11");
-        TmpChara1Dic.Add("ActivitySpellList", "1,21");
+        TmpChara1Dic.Add("Weapons", "11");
+        TmpChara1Dic.Add("ActivitySpellList", "1");
         TmpChara1Dic.Add("LiftPower", "100");
         TmpChara1Dic.Add("Weight", "100");
 
@@ -59,8 +59,8 @@ public partial class GameDictionary
         TmpChara2Dic.Add("EquipDefenseRate", "1.2");
         TmpChara2Dic.Add("BaseAttack", "40");
         TmpChara2Dic.Add("EquipAttack", "50");
-        TmpChara2Dic.Add("SpellList", "1");
-        TmpChara2Dic.Add("ActivitySpellList", "0");
+        TmpChara2Dic.Add("Weapons", "0");
+        TmpChara2Dic.Add("ActivitySpellList", "11,11");
         TmpChara2Dic.Add("LiftPower", "100");
         TmpChara2Dic.Add("Weight", "30");
 
@@ -75,8 +75,8 @@ public partial class GameDictionary
         TmpChara3Dic.Add("EquipDefenseRate", "1.2");
         TmpChara3Dic.Add("BaseAttack", "50");
         TmpChara3Dic.Add("EquipAttack", "50");
-        TmpChara3Dic.Add("SpellList", "21");
-        TmpChara3Dic.Add("ActivitySpellList", "0");
+        TmpChara3Dic.Add("Weapons", "0");
+        TmpChara3Dic.Add("ActivitySpellList", "21");
         TmpChara3Dic.Add("LiftPower", "100");
         TmpChara3Dic.Add("Weight", "60");
 

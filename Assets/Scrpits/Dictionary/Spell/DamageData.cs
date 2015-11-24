@@ -7,7 +7,10 @@ using LitJson;
 public class DamageData
 {
     public int ID { get; private set; }
+    //觸發機率
     public float Probability { get; private set; }
+    //延遲顯示扣血
+    public float ShowDelay { get; private set; }
     //物攻加值
     public int PAttack { get; protected set; }
     //物傷乘值
@@ -40,6 +43,7 @@ public class DamageData
             JsonData item = _item;
             ID = int.Parse(item["ID"].ToString());
             Probability = float.Parse(item["Probability"].ToString());
+            ShowDelay = float.Parse(item["ShowDelay"].ToString());
             PAttack = int.Parse(item["PAttack"].ToString());
             PLethalityRate = float.Parse(item["PLethalityRate"].ToString());
             MAttack = int.Parse(item["MAttack"].ToString());

@@ -32,36 +32,60 @@ public abstract partial class Chara : MonoBehaviour
     //狀態效果清單
     public List<BufferEntity> BufferList { get; protected set; }
     ////////////////////////防禦//////////////////////////
-    //基本防禦值
-    public int BaseDefense { get; protected set; }
-    //裝備防禦值
-    public int EquipDefense { get; protected set; }
-    //狀態影響防禦加值
-    public float BufferDefenseValue { get; protected set; }
-    //狀態影響防禦比例
-    public float BufferDefenseRate { get; protected set; }
-    //裝備抵抗強度
-    public float EquipDefenseRate { get; protected set; }
+    //物防值
+    public int PDefense { get; protected set; }
+    //魔防值
+    public int MDefense { get; protected set; }
+    //裝備物防值
+    public int EquipPDefense { get; protected set; }
+    //裝備魔防值
+    public int EquipMDefense { get; protected set; }
+    //裝備物抗率
+    public float EquipPResistanceRate { get; protected set; }
+    //裝備魔抗率
+    public float EquipMResistanceRate { get; protected set; }
+    //狀態影響物防值
+    public float BufferPDefense { get; protected set; }
+    //狀態影響魔防值
+    public float BufferMDefense { get; protected set; }
+    //狀態影響物抗率
+    public float BufferPResistanceRate { get; protected set; }
+    //狀態影響魔抗率
+    public float BufferMResistanceRate { get; protected set; }
     ////////////////////////攻擊//////////////////////////
-    //基本攻擊值
-    public int BaseAttack { get; protected set; }
-    //裝備攻擊值
-    public int EquipAttack { get; protected set; }
-    //狀態影響攻擊加值
-    public float BufferAttackVlue { get; protected set; }
-    //狀態影響攻擊比例
-    public float BufferAttackRate { get; protected set; }
+    //物攻值
+    public int PAttack { get; protected set; }
+    //魔攻值
+    public int MAttack { get; protected set; }
+    //裝備物攻值
+    public int EquipPAttack { get; protected set; }
+    //裝備魔攻值
+    public int EquipMAttack { get; protected set; }
+    //裝備物傷率
+    public float EquipPLethalityRate { get; protected set; }
+    //裝備魔傷率
+    public float EquipMLethalityRate { get; protected set; }
+    //狀態影響物攻值
+    public float BufferPAttack { get; protected set; }
+    //狀態影響魔攻值
+    public float BufferMAttack { get; protected set; }
+    //狀態影響物傷率
+    public float BufferPLethalityRate { get; protected set; }
+    //狀態影響魔傷率
+    public float BufferMLethalityRate { get; protected set; }
     //////////////////////其他//////////////////////////
     //可負擔的重量
     public int LiftPower { get; protected set; }
     //負重
     public int Weight { get; protected set; }
+    //裝備負重
+    public int EquipWeight { get; protected set; }
     //負重百分比
     public float WeightRatio { get; protected set; }
     //中狀態的效果清單
     ////////////////////////施法//////////////////////////
     //施法清單
-    public List<PassiveSpell> SpellList { get; protected set; }
+    public List<PassiveSpell> PassiveSpellList { get; protected set; }
     //腳色初始位置
     protected Vector2[] DefaultPos { get; set; }
     //腳色初始縮放

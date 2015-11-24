@@ -17,6 +17,8 @@ public class Damage : ExecuteCom
     public int TrueDamage { get; protected set; }
     //效果觸發機率
     public float Probability { get; protected set; }
+    //延遲顯示扣血
+    public float ShowDelay { get; private set; }
     /// <summary>
     /// 初始化施法的傷害效果
     /// </summary>
@@ -24,6 +26,7 @@ public class Damage : ExecuteCom
         : base(_damageID, _spellName, _type, _self)
     {
         Probability = GameDictionary.DamageDic[ID].Probability;
+        ShowDelay = GameDictionary.DamageDic[ID].ShowDelay;
         PAttack = GameDictionary.DamageDic[ID].PAttack;
         PLethalityRate = GameDictionary.DamageDic[ID].PLethalityRate;
         MAttack = GameDictionary.DamageDic[ID].MAttack;
@@ -39,7 +42,7 @@ public class Damage : ExecuteCom
         //取得實際傷害量
         TrueDamage = GetDamage(_target);
         Debug.Log(string.Format("{0}施放{1}對{2}造成{3}點{4}", Self.Name, SpellName, _target.Name, TrueDamage, Type));//ex:勇者施放砍殺大惡魔造成46點傷害
-        _target.ReceivePhysicalDamge(TrueDamage, true, HitTextType.Hit);
+        _target.ReceivePhysicalDamge(TrueDamage, true, HitTextType.Hit, ShowDelay);
     }
     /// <summary>
     /// 取得傷害
@@ -49,9 +52,9 @@ public class Damage : ExecuteCom
         ///////////////////////////////物理傷害運算////////////////////////////////
         int pDamage = 0;
         //物理殺傷力= (腳色物攻值+裝備物攻值+效果物攻值+技能物攻值) *(效果物傷乘值) * (技能物傷乘值)
-        int pLethality = (int)((Self.BaseAttack + Self.EquipAttack + Self.BufferAttackVlue + PAttack) * (Self.BufferAttackRate) * (PLethalityRate));
+        int pLethality = (int)((Self.PAttack + Self.EquipPAttack + Self.BufferPAttack + PAttack) * (Self.BufferPLethalityRate) * (PLethalityRate) * (Self.EquipPLethalityRate));
         //物抗力=(腳色防禦值+裝備防禦值+效果防禦加值) *(效果防禦乘值)*(裝備抵抗乘值)
-        int pResistance = (int)((_target.BaseDefense + _target.EquipDefense + _target.BufferDefenseValue) * _target.BufferDefenseRate * _target.EquipDefenseRate);
+        int pResistance = (int)((_target.PDefense + _target.EquipPDefense + _target.BufferPDefense) * _target.BufferPResistanceRate * _target.EquipPResistanceRate);
         //物理傷害值=(物理殺傷力*100)/(100+物抗力)
         pDamage = (int)((100 * pLethality) / (100 + pResistance));
         ///////////////////////////////魔法傷害運算////////////////////////////////

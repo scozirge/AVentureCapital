@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
-public class ActivitySpell : PassiveSpell
+public class ActivitySpell : Spell
 {
+    public new PlayerChara Self;
     //消耗精神
     public int ConsumeVitality { get; private set; }
     //施法圖像名稱
@@ -23,11 +24,13 @@ public class ActivitySpell : PassiveSpell
     public ActivitySpell(int _spellID, PlayerChara _self)
         : base(_spellID, _self)
     {
+        Self = _self;
+        InitSpellData();
     }
     /// <summary>
     /// 初始化施法資料
     /// </summary>
-    protected override void InitSpellData()
+    protected void InitSpellData()
     {
         Name = GameDictionary.ASpellDic[ID].Name;
         CD = GameDictionary.ASpellDic[ID].CD;
@@ -43,6 +46,7 @@ public class ActivitySpell : PassiveSpell
         Type = (SpellType)Enum.Parse(typeof(SpellType), GameDictionary.ASpellDic[ID].Type);
         InSpareTime = GameDictionary.ASpellDic[ID].InSpareTime;
     }
+
     /// <summary>
     /// 施法CD時間流逝
     /// </summary>
@@ -50,17 +54,13 @@ public class ActivitySpell : PassiveSpell
     {
         if (FinishCD)
             return;
-        if (CDTimer > 0)
-        {
-            CDTimer -= TimeUnit;
-            UpdateCDRatio();
-        }
-        else
+        base.TimePass();
+        if (CDTimer <= 0)
         {
             FinishCD = true;
             CDTimer = 0;
-            UpdateCDRatio();
         }
+        UpdateCDRatio();
     }
     /// <summary>
     /// 執行施法
@@ -75,9 +75,10 @@ public class ActivitySpell : PassiveSpell
         if (!FinishCD)
             return;
         //精神不足就返回
-        if (ConsumeVitality > ((PlayerChara)Self).CurVP)
+        if (ConsumeVitality > Self.CurVP)
             return;
-        ((PlayerChara)Self).ConsumeVitality(ConsumeVitality);
+        //消耗精神
+        Self.ConsumeVitality(ConsumeVitality);
         base.Execute();
         FinishCD = false;
         UpdateCDRatio();

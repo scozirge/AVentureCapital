@@ -3,14 +3,23 @@ using System.Collections;
 using UnityEngine.UI;
 public class SpellUI : MonoBehaviour
 {
+    GameObject MyGameobject;
     bool IsInit;
     ActivitySpell MySpell;
     //物件
     Image Image_Icon;
     Image Image_Bottom;
     Image Image_Cover;
+    //位置
+    static Vector2 CenterPos = new Vector2(0, -130);
     public void Init(ActivitySpell _spell)
     {
+        MyGameobject = gameObject;
+        if (_spell == null)
+        {
+            HideUI();
+            return;
+        }
         MySpell = _spell;
         Image_Icon = transform.FindChild("icon").GetComponent<Image>();
         Image_Bottom = transform.FindChild("bottom").GetComponent<Image>();
@@ -22,6 +31,13 @@ public class SpellUI : MonoBehaviour
         //初始設定無CD
         Image_Cover.fillAmount = 0;
         IsInit = true;
+    }
+    /// <summary>
+    /// 如果無技能就隱藏圖示
+    /// </summary>
+    void HideUI()
+    {
+        MyGameobject.SetActive(false);
     }
     /// <summary>
     /// 設定Icon底圖顏色
