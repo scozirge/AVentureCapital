@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Damage : ExecuteCom
 {
+    // 執行元件類型
+    public ExecuteType ExecuteComType { get; protected set; }
     //物攻加值
     public int PAttack { get; protected set; }
     //物傷乘值
@@ -22,9 +24,10 @@ public class Damage : ExecuteCom
     /// <summary>
     /// 初始化施法的傷害效果
     /// </summary>
-    public Damage(int _damageID, string _spellName, ExecuteType _type, Chara _self)
-        : base(_damageID, _spellName, _type, _self)
+    public Damage(int _damageID, Chara _self)
+        : base(_damageID, _self)
     {
+        ExecuteComType = ExecuteType.Damage;
         Probability = GameDictionary.DamageDic[ID].Probability;
         ShowDelay = GameDictionary.DamageDic[ID].ShowDelay;
         PAttack = GameDictionary.DamageDic[ID].PAttack;
@@ -41,7 +44,7 @@ public class Damage : ExecuteCom
         base.Execute(_target);
         //取得實際傷害量
         TrueDamage = GetDamage(_target);
-        Debug.Log(string.Format("{0}施放{1}對{2}造成{3}點{4}", Self.Name, SpellName, _target.Name, TrueDamage, Type));//ex:勇者施放砍殺大惡魔造成46點傷害
+        Debug.Log(string.Format("{0}對{1}造成{2}點{3}", Self.Name, _target.Name, TrueDamage, ExecuteComType));//ex:勇者施放砍殺大惡魔造成46點傷害
         _target.ReceivePhysicalDamge(TrueDamage, true, HitTextType.Hit, ShowDelay);
     }
     /// <summary>

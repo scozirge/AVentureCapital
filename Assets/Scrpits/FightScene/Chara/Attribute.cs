@@ -31,6 +31,79 @@ public abstract partial class Chara : MonoBehaviour
     public bool IsAlive { get; protected set; }
     //狀態效果清單
     public List<BufferEntity> BufferList { get; protected set; }
+    ///////////////////////主屬性////////////////////////
+    //體質
+    public int Constitution { get; protected set; }
+    public int EquipConstitution { get; protected set; }
+    public int BufferConstitution { get; protected set; }
+    public int FinalConstitution()
+    {
+        return Constitution + EquipConstitution + BufferConstitution;
+    }
+    //心智
+    public int Mind { get; protected set; }
+    public int EquipMind { get; protected set; }
+    public int BufferMind { get; protected set; }
+    public int FinalMind()
+    {
+        return Mind + EquipMind + BufferMind;
+    }
+    //力量
+    public int Strength { get; protected set; }
+    public int EquipStrength { get; protected set; }
+    public int BufferStrength { get; protected set; }
+    public int FinalStrength()
+    {
+        return Strength + EquipStrength + BufferStrength;
+    }
+    //信仰
+    public int Faith { get; protected set; }
+    public int EquipFaith { get; protected set; }
+    public int BufferFaith { get; protected set; }
+    public int FinalFaith()
+    {
+        return Faith + EquipFaith + BufferFaith;
+    }
+    //警戒
+    public int Alert { get; protected set; }
+    public int EquipAlert { get; protected set; }
+    public int BufferAlert { get; protected set; }
+    public int FinalAlert()
+    {
+        return Alert + EquipAlert + BufferAlert;
+    }
+    //意志
+    public int Will { get; protected set; }
+    public int EquipWill { get; protected set; }
+    public int BufferWill { get; protected set; }
+    public int FinalWill()
+    {
+        return Will + EquipWill + BufferWill;
+    }
+    //技巧
+    public int Skill { get; protected set; }
+    public int EquipSkill { get; protected set; }
+    public int BufferSkill { get; protected set; }
+    public int FinalSkill()
+    {
+        return Skill + EquipSkill + BufferSkill;
+    }
+    //反應
+    public int Agile { get; protected set; }
+    public int EquipAgile { get; protected set; }
+    public int BufferAgile { get; protected set; }
+    public int FinalAgile()
+    {
+        return Agile + EquipAgile + BufferAgile;
+    }
+    //爆發
+    public int Power { get; protected set; }
+    public int EquipPower { get; protected set; }
+    public int BufferPower { get; protected set; }
+    public int FinalPower()
+    {
+        return Power + EquipPower + BufferPower;
+    }
     ////////////////////////防禦//////////////////////////
     //物防值
     public int PDefense { get; protected set; }
@@ -80,6 +153,8 @@ public abstract partial class Chara : MonoBehaviour
     public int Weight { get; protected set; }
     //裝備負重
     public int EquipWeight { get; protected set; }
+    //狀態負重
+    public int BufferWeight { get; protected set; }
     //負重百分比
     public float WeightRatio { get; protected set; }
     //中狀態的效果清單

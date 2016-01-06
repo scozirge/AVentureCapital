@@ -17,8 +17,8 @@ public class FPSController : MonoBehaviour
     {
         Text_FPS = transform.FindChild("fps").GetComponent<Text>();
         //限制FPS在40左右
-        QualitySettings.vSyncCount = 0;  // VSync must be disabled
-        Application.targetFrameRate = 35;
+        //QualitySettings.vSyncCount = 0;  // VSync must be disabled
+        //Application.targetFrameRate = 35;
     }
 
     void Update()

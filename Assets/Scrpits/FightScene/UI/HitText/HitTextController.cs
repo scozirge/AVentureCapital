@@ -13,6 +13,8 @@ public class HitTextController : MonoBehaviour
     /// </summary>
     public void Init()
     {
+        if (Isinit)
+            return;
         MyTransform = transform;
         HitTextList = new List<HitText>();
         Prefab_HitText = Resources.Load<GameObject>("GameObjects/FightScene/UI/HitText");

@@ -51,15 +51,15 @@ public abstract class Spell
             switch (type)
             {
                 case "D"://傷害效果
-                    Damage damage = new Damage(executeID, Name, ExecuteType.Damage, Self);
+                    Damage damage = new Damage(executeID, Self);
                     TriggerTargetList.Add(damage);
                     break;
                 case "C"://治癒效果
-                    Cure cure = new Cure(executeID, Name, ExecuteType.Damage, Self);
+                    Cure cure = new Cure(executeID, Self);
                     TriggerTargetList.Add(cure);
                     break;
                 case "B"://狀態效果
-                    Buffer buffer = new Buffer(executeID, Name, ExecuteType.Damage, Self);
+                    Buffer buffer = new Buffer(executeID, Self);
                     TriggerTargetList.Add(buffer);
                     break;
                 default:

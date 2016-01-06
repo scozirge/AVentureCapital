@@ -19,7 +19,7 @@ public class BufferEntity : MonoBehaviour
     /// </summary>
     public void IniBuffer(Buffer _buffer, Chara _self)
     {
-        gameObject.name = _buffer.SpellName;
+        gameObject.name = string.Format("BufferID({0})", _buffer.ID);
         Self = _self;
         RelyBuffer = _buffer;
         RemainTime = RelyBuffer.Duration;
@@ -35,7 +35,6 @@ public class BufferEntity : MonoBehaviour
             if (RelyBuffer.IniTrigger)
                 Trigger();
         }
-
     }
     /// <summary>
     /// 執行檢查，計算經過時間並檢查是否觸發效果或結束狀態
@@ -57,7 +56,7 @@ public class BufferEntity : MonoBehaviour
         {
             Destroy(gameObject);
             Self.RemoveBuffer(RelyBuffer.ID);
-            Debug.LogWarning(string.Format("{0}的{1}狀態被移除", Self.Name, RelyBuffer.SpellName));
+            Debug.LogWarning(string.Format("{0}的BufferID{1}被移除", Self.Name, RelyBuffer.ID));
         }
     }
 

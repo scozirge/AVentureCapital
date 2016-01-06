@@ -18,17 +18,15 @@ public partial class FightScene
     const float AdventureTimeUnit = 1;
     //冒險一刻的時間
     const float AdventureRoundUnits = 0.1f;
-    //冒險里程碑間隔幾刻
-    const byte MilestoneTime = 30;
     //目前行徑的里程
-    byte CurMiles;
+    public static int CurMiles { get; private set; }
     //冒險計時器
     static float AdventureTimer;
 
     /// <summary>
     /// 起始設定計時器
     /// </summary>
-    static void SetTimer()
+    static void IniTimer()
     {
         FightTimer = FightTimeRoundUnits;
         Fight = false;
@@ -92,18 +90,24 @@ public partial class FightScene
     /// </summary>
     void AdvantureTimeProgress()
     {
-        if(CheckAdventureTimeUnit())
+        if (CheckAdventureTimeUnit())
         {
             //執行主動施法時間流逝
             PassCharaActivitySpellTime();
-            //里程數增加
-            CurMiles++;
-            if (CurMiles>=MilestoneTime)
-            {
-                CurMiles = 0;
-                MeetEnemy();
-            }
-        }        
+            //腳色狀態時間流逝
+            PassStatus();
+            //腳色前進
+            Progress.GoForward();
+        }
+    }
+    /// <summary>
+    /// 設定目前里程數
+    /// </summary>
+    public static void SetMile(int _mile)
+    {
+        if (CurMiles == _mile)
+            return;
+        CurMiles = _mile;
     }
     /// <summary>
     /// 戰鬥時間排成處理
@@ -136,7 +140,7 @@ public partial class FightScene
                 if (!ActionCharaList[0].SpellTimePass())
                 {
                     //因為此腳色已執行過施法時間流逝，所以加入不執行清單
-                    DontPassSpellTimeCharaIDList.Add(ActionCharaList[0].ID);
+                    DontPassSpellTimeCharaIDList.Add(ActionCharaList[0].AbsIndex);
                     //已執行過施法所以從清單中移除
                     ActionCharaList.RemoveAt(0);
                 }
@@ -204,22 +208,22 @@ public partial class FightScene
     {
         for (int i = 0; i < PAliveCharaList.Count; i++)
         {
-            if (!DontPassSpellTimeCharaIDList.Contains(PAliveCharaList[i].ID))
+            if (!DontPassSpellTimeCharaIDList.Contains(PAliveCharaList[i].AbsIndex))
             {
                 //施法時間流逝
                 PAliveCharaList[i].SpellTimePass();
                 //因為此腳色已執行過施法時間流逝，所以加入不執行清單
-                DontPassSpellTimeCharaIDList.Add(PAliveCharaList[i].ID);
+                DontPassSpellTimeCharaIDList.Add(PAliveCharaList[i].AbsIndex);
             }
         }
         for (int i = 0; i < EAliveCharaList.Count; i++)
         {
-            if (!DontPassSpellTimeCharaIDList.Contains(EAliveCharaList[i].ID))
+            if (!DontPassSpellTimeCharaIDList.Contains(EAliveCharaList[i].AbsIndex))
             {
                 //施法時間流逝
                 EAliveCharaList[i].SpellTimePass();
                 //因為此腳色已執行過施法時間流逝，所以加入不執行清單
-                DontPassSpellTimeCharaIDList.Add(EAliveCharaList[i].ID);
+                DontPassSpellTimeCharaIDList.Add(EAliveCharaList[i].AbsIndex);
             }
         }
     }
@@ -234,3 +238,4 @@ public partial class FightScene
         }
     }
 }
+ 

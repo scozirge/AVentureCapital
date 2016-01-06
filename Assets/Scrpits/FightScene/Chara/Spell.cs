@@ -31,15 +31,19 @@ for (int i = 0; i < spellIDStr.Length; i++)
         //如果腳色死亡，時間則不再流逝(不會觸發狀態)
         if (!IsAlive)
             return;
-        //觸發狀態
+        //常駐狀態觸發
+        for(int i=0;i<PermanentBufferList.Count;i++)
+        {
+            PermanentBufferList[i].ExecuteCheck();
+        }
+        //時效性觸發狀態
         List<int> bufferKeys = new List<int>(BufferDic.Keys);
         for (int i = 0; i < bufferKeys.Count; i++)
         {
             for (int j = 0; j < BufferDic[bufferKeys[i]].Count; j++)
             {
                 BufferDic[bufferKeys[i]][j].ExecuteCheck();
-                //如果在執行ExecuteCheck後發現BufferDic已經不存在ID，代表此狀態在ExecuteCheck中判定時效已過而遭刪除
-                //跳出迴圈
+                //如果在執行ExecuteCheck後發現BufferDic已經不存在ID，代表此狀態在ExecuteCheck中判定時效已過而遭刪除，所以跳出迴圈
                 if (!BufferDic.ContainsKey(bufferKeys[i]))
                     break;
             }
@@ -73,7 +77,6 @@ for (int i = 0; i < spellIDStr.Length; i++)
         //如果腳色死亡返回true，代表腳色沒有多次施法
         if (!IsAlive)
             return mutiSpell;
-
         //計算要施法的次數
         for (int i = 0; i < PassiveSpellList.Count; i++)
         {

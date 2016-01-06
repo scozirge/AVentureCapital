@@ -13,11 +13,17 @@ public partial class PlayerChara : Chara
         TheCharaType = CharaType.Player;
         MaxVP = int.Parse(AttrsDic["MaxVP"]);
         CurVP = int.Parse(AttrsDic["CurVP"]);
+        Strength = int.Parse(AttrsDic["Strength"]);
+        Agile = int.Parse(AttrsDic["Agile"]);
         UpdateVitalityRatio();
         //初始化裝備
         InitEquipment();
         //初始化主動施法
         InitActivitySpell();
+        //將此玩家腳色加入字典
+        FightScene.PCharaDic.Add(Index.ToString(), this);
+        FightScene.PCharaList.Add(this);
+        FightScene.PAliveCharaList.Add(this);
     }
     /// <summary>
     /// 對角色造成物理傷害，傳入[造成的傷害][是否在ICON顯示效果動畫]

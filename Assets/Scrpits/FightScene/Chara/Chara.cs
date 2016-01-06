@@ -15,16 +15,17 @@ public abstract partial class Chara : MonoBehaviour
         Name = AttrsDic["Name"];
         Index = _index;
         //狀態
+        IsAlive = true;
         MaxHP = int.Parse(AttrsDic["MaxHP"]);
         CurHP = int.Parse(AttrsDic["CurHP"]);
         UpdateHealthRatio();
         IsAlive = true;
         //防禦
-        PDefense = int.Parse(AttrsDic["BaseDefense"]);
+        PDefense = int.Parse(AttrsDic["PDefense"]);
         BufferPDefense = 0;
         BufferPResistanceRate = 1;
         //攻擊
-        PAttack = int.Parse(AttrsDic["BaseAttack"]);
+        PAttack = int.Parse(AttrsDic["PAttack"]);
         EquipPAttack = 0;
         EquipPLethalityRate = 1;
         BufferPAttack = 0;

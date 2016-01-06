@@ -6,7 +6,7 @@ using LitJson;
 
 public class ArmorData : EquipmentData
 {
-    public int BufferD { get; private set; }
+    public int BufferID { get; private set; }
     /// <summary>
     /// 將字典傳入，依json表設定資料
     /// </summary>
@@ -33,7 +33,7 @@ public class ArmorData : EquipmentData
                 switch (key)
                 {
                     case "BufferID":
-                        BufferD = int.Parse(item[key].ToString());
+                        BufferID = int.Parse(item[key].ToString());
                         break;
                 }
             }

@@ -12,6 +12,11 @@ public class Weapon : Equipment
         : base(_weaponID)
     {
         Type = EquipmentTYpe.Weapon;
+        if (!GameDictionary.WeaponDic.ContainsKey(ID))
+        {
+            Debug.LogWarning("不存在的武器ID:" + ID);
+            return;
+        }
         WeaponData weaponData = GameDictionary.WeaponDic[ID];
         InitEquipment(weaponData);
         SpellID = weaponData.SpellID;

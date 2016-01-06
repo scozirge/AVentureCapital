@@ -7,8 +7,8 @@ public class BufferDamage : Damage
     /// <summary>
     /// 初始化狀態的傷害觸發效果
     /// </summary>
-    public BufferDamage(int _damageID, string _actionName, ExecuteType _type, Chara _self)
-        : base(_damageID, _actionName, _type, _self)
+    public BufferDamage(int _damageID, Chara _self)
+        : base(_damageID, _self)
     {
     }
     /// <summary>
@@ -18,7 +18,7 @@ public class BufferDamage : Damage
     {
         //取得實際傷害量
         TrueDamage = GetDamage(_target);
-        Debug.Log(string.Format("{0}受到{1}狀態影響，造成{2}點{3}", Self.Name, SpellName, TrueDamage, Type));//ex:大惡魔受到砍殺狀態影響，造成56點傷害
+        Debug.Log(string.Format("{0}受到{1}點{2}", Self.Name, TrueDamage, ExecuteComType));//ex:大惡魔受到砍殺狀態影響，造成56點傷害
         _target.ReceivePhysicalDamge(TrueDamage, false, HitTextType.DOT, ShowDelay);
     }
 }

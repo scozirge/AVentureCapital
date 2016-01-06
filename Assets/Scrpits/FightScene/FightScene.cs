@@ -3,25 +3,32 @@ using System.Collections;
 using System.Collections.Generic;
 public partial class FightScene : MonoBehaviour
 {
-    static FPSController MyFPSController;
+    static bool IsInit { get; set; }
+    //物件
     static Transform MyTransform;
     ////////////////////冒險/////////////////////
     //是否開始冒險
     static bool Adventure;
     //PlayerChara
     static Transform Trans_PlayerCharas;
+    public static Transform[] PlayerTrans;
     public static Dictionary<string, PlayerChara> PCharaDic;
     public static List<PlayerChara> PCharaList;
     public static List<PlayerChara> PAliveCharaList;
     //EnemyChara
     static Transform Trans_EnemyCharas;
+    public static Transform[] EnemyTrans;
     public static Dictionary<string, EnemyChara> ECharaDic;
     public static List<EnemyChara> ECharaList;
     public static List<EnemyChara> EAliveCharaList;
     //音效音樂
     static AudioPlayer FAudio;
+    //FPS控制器
+    static FPSController MyFPSController;
     void Start()
     {
+        if (IsInit)
+            return;
         LoadObj();
         SetData();
         LoadUI();
@@ -29,6 +36,7 @@ public partial class FightScene : MonoBehaviour
         CharaDataUI.UpdateData();
         //開始冒險
         StartAdventure();
+        IsInit = true;
     }
     /// <summary>
     /// 起始設定
@@ -37,26 +45,27 @@ public partial class FightScene : MonoBehaviour
     {
         MyTransform = transform;
         //Player
+        PlayerTrans = new Transform[3];
         PCharaDic = new Dictionary<string, PlayerChara>();
         PCharaList = new List<PlayerChara>();
         PAliveCharaList = new List<PlayerChara>();
+        Trans_PlayerCharas = MyTransform.FindChild("Charas").FindChild("PlayerCharas");
+        for (int i = 0; i < PlayerTrans.Length; i++)
+        {
+            PlayerTrans[i] = Trans_PlayerCharas.FindChild(string.Format("Chara{0}", i));
+        }
+        //Enemy
+        EnemyTrans = new Transform[3];
         ECharaDic = new Dictionary<string, EnemyChara>();
         ECharaList = new List<EnemyChara>();
         EAliveCharaList = new List<EnemyChara>();
-        Trans_PlayerCharas = MyTransform.FindChild("Charas").FindChild("PlayerCharas");
         Trans_EnemyCharas = MyTransform.FindChild("Charas").FindChild("EnemyCharas");
-        FAudio = MyTransform.FindChild("Audios").GetComponent<AudioPlayer>();
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < EnemyTrans.Length; i++)
         {
-            //Player
-            PCharaDic.Add(i.ToString(), Trans_PlayerCharas.FindChild(string.Format("Chara{0}", i)).GetComponent<PlayerChara>());
-            PCharaList.Add(PCharaDic[i.ToString()]);
-            PAliveCharaList.Add(PCharaDic[i.ToString()]);
-            //Enemy
-            ECharaDic.Add(i.ToString(), Trans_EnemyCharas.FindChild(string.Format("Chara{0}", i)).GetComponent<EnemyChara>());
-            ECharaList.Add(ECharaDic[i.ToString()]);
-            EAliveCharaList.Add(ECharaDic[i.ToString()]);
+            EnemyTrans[i] = Trans_EnemyCharas.FindChild(string.Format("Chara{0}", i));
         }
+        //Audio
+        FAudio = MyTransform.FindChild("Audios").GetComponent<AudioPlayer>();
     }
     /// <summary>
     /// 初始化音樂音效
@@ -85,19 +94,50 @@ public partial class FightScene : MonoBehaviour
     void SetData()
     {
         //字典
-        GameDictionary.SetDic();
+        GameDictionary.InitDic();
         //Player
-        PCharaList[0].IniChara(0, GameDictionary.TmpChara1Dic);
-        PCharaList[1].IniChara(1, GameDictionary.TmpChara2Dic);
-        PCharaList[2].IniChara(2, GameDictionary.TmpChara3Dic);
-        //Enemy
-        ECharaList[0].IniChara(0, GameDictionary.TmpEnemy1Dic);
-        ECharaList[1].IniChara(1, GameDictionary.TmpEnemy2Dic);
-        ECharaList[2].IniChara(2, GameDictionary.TmpEnemy3Dic);
+        PlayerTrans[0].GetComponent<PlayerChara>().IniChara(0, GameDictionary.TmpChara1Dic);
+        PlayerTrans[1].GetComponent<PlayerChara>().IniChara(1, GameDictionary.TmpChara2Dic);
+        PlayerTrans[2].GetComponent<PlayerChara>().IniChara(2, GameDictionary.TmpChara3Dic);
         //Timer
-        SetTimer();
+        IniTimer();
         //場景
-        SetScene();
+        IniScene();
+    }
+    /// <summary>
+    /// 設定敵人
+    /// </summary>
+    static void SetEnemy(Dictionary<string, string>[] _enemysDic)
+    {
+        int enemyNum = _enemysDic.Length;
+        if (_enemysDic == null || enemyNum < 1 || enemyNum > 3)
+        {
+            Debug.LogWarning("敵人數量異常");
+            return;
+        }
+        //傳入敵人字典
+        for (byte i = 0; i < 3; i++)
+        {
+            if (i < enemyNum)
+            {
+                EnemyTrans[i].gameObject.SetActive(true);
+                EnemyTrans[i].GetComponent<EnemyChara>().IniChara(i, _enemysDic[i]);
+            }
+            else
+            {
+                EnemyTrans[i].gameObject.SetActive(false);
+            }
+        }
+    }
+    /// <summary>
+    /// 重置敵人
+    /// </summary>
+    static void ResetEnemy()
+    {
+        //清除敵方腳色字典
+        ECharaDic.Clear();
+        ECharaList.Clear();
+        EAliveCharaList.Clear();
     }
     /// <summary>
     /// 玩家腳色播放動作，傳入動作類型與是否錯開播放

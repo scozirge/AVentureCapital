@@ -6,7 +6,8 @@ public class CharaDataUI : MonoBehaviour
     Transform MyTransform;
     static bool IsInit;
     //腳色物件
-    static Transform[] Trans_Chara;
+    static GameObject[] Go_Charas;
+    static Transform[] Trans_Charas;
     static CharaUI[] CharaUIs;
     /// <summary>
     /// 初始化
@@ -14,15 +15,18 @@ public class CharaDataUI : MonoBehaviour
     public void Init()
     {
         MyTransform = transform;
-        Trans_Chara = new Transform[3];
+        Trans_Charas = new Transform[3];
+        Go_Charas = new GameObject[3];
         CharaUIs = new CharaUI[3];
         for (int i = 0; i < 3; i++)
         {
-            Trans_Chara[i] = MyTransform.FindChild(string.Format("Chara{0}", i));
-            CharaUIs[i] = Trans_Chara[i].GetComponent<CharaUI>();
+            Trans_Charas[i] = MyTransform.FindChild(string.Format("Chara{0}", i));
+            Go_Charas[i] = Trans_Charas[i].gameObject;
+            CharaUIs[i] = Trans_Charas[i].GetComponent<CharaUI>();
             CharaUIs[i].Init(i);
         }
         IsInit = true;
+        ShowCharas(true);
     }
     /// <summary>
     /// 更新所有腳色介面
@@ -93,5 +97,15 @@ public class CharaDataUI : MonoBehaviour
         if (!IsInit)
             return;
         CharaUIs[_index].Dead();
+    }
+    /// <summary>
+    /// 顯示所有腳色
+    /// </summary>
+    public static void ShowCharas(bool _show)
+    {
+        for (int i = 0; i < Trans_Charas.Length; i++)
+        {
+            Go_Charas[i].SetActive(_show);
+        }
     }
 }

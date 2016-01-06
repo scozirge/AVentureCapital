@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class Buffer : ExecuteCom
 {
+    // 執行元件類型
+    public ExecuteType ExecuteComType { get; protected set; }
     //效果類型
     public BufferType TheBufferType { get; protected set; }
     //是否為正面狀態
@@ -46,9 +48,15 @@ public class Buffer : ExecuteCom
     /// <summary>
     /// 初始化施法狀態效果
     /// </summary>
-    public Buffer(int _bufferID, string _spellName, ExecuteType _type, Chara _self)
-        : base(_bufferID, _spellName, _type, _self)
+    public Buffer(int _bufferID, Chara _self)
+        : base(_bufferID, _self)
     {
+        if (_bufferID == 0)
+        {
+            Debug.LogWarning("BufferID為0");
+            return;
+        }
+        ExecuteComType = ExecuteType.Buffer;
         TheBufferType = GameDictionary.BufferDic[ID].Type;
         IsBuff = GameDictionary.BufferDic[ID].IsBuff;
         IsDeBuff = GameDictionary.BufferDic[ID].IsDeBuff;
@@ -92,15 +100,15 @@ public class Buffer : ExecuteCom
             switch (type)
             {
                 case "D"://傷害效果
-                    BufferDamage damage = new BufferDamage(executeID, SpellName, ExecuteType.Damage, Self);
+                    BufferDamage damage = new BufferDamage(executeID, Self);
                     TriggerExecuteList.Add(damage);
                     break;
                 case "C"://治癒效果
-                    Cure cure = new Cure(executeID, SpellName, ExecuteType.Damage, Self);
+                    Cure cure = new BufferCure(executeID, Self);
                     TriggerExecuteList.Add(cure);
                     break;
                 case "B"://狀態效果
-                    Buffer buffer = new Buffer(executeID, SpellName, ExecuteType.Damage, Self);
+                    Buffer buffer = new Buffer(executeID, Self);
                     TriggerExecuteList.Add(buffer);
                     break;
                 default:
@@ -115,7 +123,7 @@ public class Buffer : ExecuteCom
     public override void Execute(Chara _target)
     {
         base.Execute(_target);
-        Debug.Log(string.Format("{0}施放{1}對{2}附加{3}效果", Self.Name, SpellName, _target.Name, TheBufferType));//ex:勇者施放砍殺對大惡魔附加流血狀態
+        Debug.Log(string.Format("{0}施放對{1}附加{2}效果", Self.Name, _target.Name, TheBufferType));//ex:勇者施放砍殺對大惡魔附加流血狀態
         _target.ReceiveBuffer(this);
     }
 }

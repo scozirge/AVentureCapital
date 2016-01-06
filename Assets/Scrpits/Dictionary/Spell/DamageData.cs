@@ -52,7 +52,8 @@ public class DamageData
         }
         catch (Exception ex)
         {
-            Debug.LogException(ex);
+            Debug.LogWarning(string.Format("傷害ID:{0}有錯誤的資料", ID));
+            Debug.LogWarning(ex);
         }
     }
 }
